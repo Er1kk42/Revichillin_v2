@@ -1,0 +1,79 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: revichillin_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - revichillin
+
+  webserver:
+    image: nginx:stable-alpine
+    container_name: revichillin_nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d
+    depends_on:
+      - app
+    networks:
+      - revichillin
+
+  db:
+    image: mysql:8.0
+    container_name: revichillin_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: revichillin
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: revichillin
+      MYSQL_PASSWORD: revichillin
+    ports:
+      - "3307:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - revichillin
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: revichillin_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - revichillin
+
+  node:
+    image: node:20-alpine
+    container_name: revichillin_node
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+    networks:
+      - revichillin
+
+networks:
+  revichillin:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local

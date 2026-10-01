@@ -1,0 +1,64 @@
+/* ============================================================================
+   HLAVNÝ CSS SÚBOR APLIKÁCIE
+   ----------------------------------------------------------------------------
+   Tento súbor je "vstupný bod" pre CSS - je uvedený vo vite.config.js
+   (input) a načítava sa v layoute cez @vite([...]).
+
+   Používame Tailwind CSS verzie 4. Tailwind funguje takto:
+     1. Prehľadá HTML/Blade súbory a nájde v nich názvy tried
+        (napr. "flex", "text-white", "hover:scale-110").
+     2. Vygeneruje CSS IBA pre triedy, ktoré sa naozaj používajú.
+        Výsledný CSS súbor je preto malý (nie tisíce nepoužitých pravidiel).
+
+   Všetky ďalšie CSS súbory (napr. menu.css) sa musia importovať SEM.
+   Vite totiž načíta iba tento súbor - súbor, ktorý tu nie je importovaný,
+   by sa na stránke vôbec neprejavil.
+   ============================================================================ */
+
+
+/* Načítanie celého Tailwindu (resety prehliadača, farby, utility triedy...).
+
+   source(none) = vypne AUTOMATICKÉ hľadanie tried v celom projekte.
+   Bez toho Tailwind prehľadával aj priečinok vendor/ (tisíce PHP súborov),
+   čo cez Docker na Windows trvalo ~30 sekúnd pri KAŽDEJ zmene CSS.
+   Namiesto toho mu nižšie cez @source presne povieme, kde má hľadať. */
+@import 'tailwindcss' source(none);
+
+/* Naše vlastné štýly pre menu (trieda .menu-item).
+   Import musí byť PO Tailwinde, lebo menu.css používa jeho
+   triedy cez @apply. */
+@import './menu.css';
+
+
+/* ----------------------------------------------------------------------------
+   KDE MÁ TAILWIND HĽADAŤ TRIEDY
+   Cesty sú relatívne k tomuto súboru (resources/css/).
+   POZOR: ak začneš písať Tailwind triedy v inom priečinku,
+   treba ho sem doplniť, inak sa pre ne CSS nevygeneruje.
+   ---------------------------------------------------------------------------- */
+
+/* resources/views - všetky Blade šablóny (stránky, layout) */
+@source '../views';
+
+/* resources/js - JavaScript, ktorý pridáva triedy dynamicky
+   (napr. navigation.js pridáva/odoberá "hidden" a "flex") */
+@source '../js';
+
+/* Šablóny stránkovania (pagination) priamo z Laravelu -
+   keby sme použili $products->links(), štýly budú fungovať */
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+/* Skompilované Blade šablóny (Laravel si Blade prekladá na čisté PHP) */
+@source '../../storage/framework/views/*.php';
+
+
+/* ----------------------------------------------------------------------------
+   @theme - úprava predvolenej "témy" Tailwindu
+   Tu prepisujeme predvolený bezpätkový font (trieda font-sans, ktorá je
+   predvolená pre celú stránku) na Instrument Sans. Ďalšie fonty v zozname
+   sú záloha, ak sa Instrument Sans nenačíta (systémové fonty, emoji).
+   ---------------------------------------------------------------------------- */
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}

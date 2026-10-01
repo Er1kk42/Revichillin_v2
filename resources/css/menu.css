@@ -1,0 +1,68 @@
+/* ============================================================================
+   VLASTNÉ TRIEDY PRE MENU
+   ----------------------------------------------------------------------------
+   Tento súbor sa načítava cez @import v app.css.
+
+   PRINCÍP @apply:
+   Namiesto toho, aby sme pri KAŽDOM odkaze v menu písali v Blade dlhý rad
+   tried, napr.:
+       class="inline-block transition-[scale,color] duration-320 ease-out
+              hover:scale-[1.28] text-white/80 hover:text-orange-400"
+   tieto Tailwind triedy "zbalíme" cez @apply do jednej vlastnej triedy.
+   V HTML potom stačí napísať: class="menu-item".
+
+   Výhody:
+     - kratší a prehľadnejší HTML kód,
+     - zmena vzhľadu menu sa robí na JEDNOM mieste (tu), nie pri každej položke.
+
+   Do tohto súboru sa dá písať aj úplne bežné CSS (color: red; a pod.),
+   Tailwind ho nechá tak, ako je.
+   ============================================================================ */
+
+
+/* @layer components - zaradí triedu do vrstvy "components".
+   Tailwind má vrstvy v poradí: theme -> base -> components -> utilities.
+   Neskoršia vrstva má prednosť, takže bežné utility triedy (napr. scale-125)
+   dokážu našu .menu-item prebiť. Príklad: class="menu-item text-red-500"
+   bude mať červenú farbu, aj keď .menu-item nastavuje bielu. */
+@layer components {
+  .menu-item {
+
+    /* inline-block: odkaz <a> je štandardne "inline" (riadkový) element
+       a na inline elementy sa transformácie (scale, rotate...) NEAPLIKUJÚ.
+       Bez tohto riadku by sa položka menu pri hoveri nezväčšila. */
+    @apply inline-block;
+
+    /* Ktoré CSS vlastnosti sa majú meniť plynulo (animovane):
+       - scale = zväčšenie,
+       - color = farba textu.
+       Ostatné vlastnosti sa menia okamžite. Animujeme len to, čo treba,
+       lebo animovanie všetkého (transition-all) zbytočne zaťažuje prehliadač. */
+    @apply transition-[scale,color];
+
+    /* Dĺžka animácie: 320 milisekúnd.
+       POZOR na chybu, ktorú sme riešili: duration-[380] (v hranatých
+       zátvorkách bez jednotky) vygeneruje "transition-duration: 380",
+       čo je NEPLATNÉ CSS - prehliadač to ignoruje, trvanie je 0 s
+       a animácia vôbec neprebehne. Správne je duration-320 (Tailwind v4
+       berie holé číslo ako ms) alebo duration-[320ms] (s jednotkou). */
+    @apply duration-320;
+
+    /* Časová funkcia (easing) - AKO sa animácia správa v čase.
+       ease-out = na začiatku rýchla, na konci spomaľuje ("dobieha").
+       Pôsobí prirodzenejšie ako linear (stále rovnaká rýchlosť),
+       lebo reálne predmety tiež pred zastavením spomalia. */
+    @apply ease-out;
+
+    /* Samotný efekt: pri prejdení myšou (hover) sa položka zväčší
+       na 128 % pôvodnej veľkosti. Hodnota [1.28] je vlastná (arbitrary),
+       lebo Tailwind má preddefinované len napr. scale-110, scale-125. */
+    @apply hover:scale-[1.28];
+
+    /* Farba textu:
+       - text-white/80 = biela s 80 % nepriehľadnosťou (jemne stlmená),
+       - hover:text-orange-400 = pri hoveri oranžová.
+       Vďaka "color" v transition-[scale,color] sa farba mení plynulo. */
+    @apply text-white/80 hover:text-orange-400;
+  }
+}
