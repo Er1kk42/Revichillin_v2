@@ -177,11 +177,20 @@
              - rounded-full border = "pilulkový" tvar s orámovaním
              - hover:bg-white hover:text-black = pri hoveri sa farby otočia
              - transition-colors duration-300 = zmena farieb je plynulá (300 ms) --}}
+        @guest
         <a href="/login"
            class="px-5 py-2 rounded-full border border-white/40 text-sm font-medium
                       hover:bg-white hover:text-black transition-colors duration-300">
             Prihlásiť sa
         </a>
+        @endguest
+        @auth
+            <a href="{{ route('user') }}" class="menu-item">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-10 w-10">
+                    <path d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+            </a>
+        @endauth
     </nav>
 
 

@@ -23,7 +23,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();                                   // primárny kľúč (auto-increment)
             $table->string('name');                         // meno používateľa
-            $table->string('email')->unique();              // e-mail, musí byť jedinečný (slúži na prihlásenie)
+            $table->string('email')->unique();      // e-mail, musí byť jedinečný (slúži na prihlásenie)
+            $table->date('birth_date');
             $table->timestamp('email_verified_at')->nullable(); // kedy bol e-mail overený (null = neoverený)
             $table->string('password');                     // zahashované heslo (bcrypt/argon)
             $table->rememberToken();                         // token pre funkciu "zapamätať si ma"
