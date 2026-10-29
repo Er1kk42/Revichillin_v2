@@ -37,4 +37,27 @@
     @apply hover:scale-[1.28];
     @apply text-white/80 hover:text-orange-400;
   }
+
+  .buttonsAll {
+    @apply inline-block cursor-pointer;
+    @apply px-5 py-2 rounded-full;
+    @apply border border-white/40 bg-black/75;
+    @apply text-sm font-medium text-white;
+    @apply transition-[scale,background-color,color] duration-300 ease-out;
+    @apply hover:scale-110 hover:bg-white hover:text-black;
+    @apply active:scale-95;
+  }
+
+  .product-card {
+    @apply flex flex-col p-4;
+    @apply rounded-2xl border border-white/10 bg-black/70 backdrop-blur;
+    @apply transition-colors duration-300 hover:border-orange-400/60;
+  }
+
+  .filter-panel {
+    @apply flex flex-col gap-2;
+    @apply w-full max-w-lg mx-auto mt-4 min-h-16 p-4;
+    @apply rounded-2xl border border-white/10 bg-black/70 backdrop-blur;
+    @apply text-sm;
+  }
 }

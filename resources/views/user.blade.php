@@ -3,7 +3,17 @@
 @section('content')
     <section class="max-w-4xl mx-auto px-4 pt-32 pb-20">
         <div class="rounded-2xl border border-white/10 bg-black/70 backdrop-blur p-8 min-h-[400px]">
-            <h1 class="text-2xl md:text-3xl font-semibold">Môj profil</h1>
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl md:text-3xl font-semibold">Môj profil</h1>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                            class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition-colors duration-300">
+                        Odhlásiť sa
+                    </button>
+                </form>
+            </div>
 
             <nav class="flex flex-wrap justify-center gap-15 mt-6 pb-4 border-b border-white/10">
                 <a href="#profile" data-tab="profile" class="menu-item user-tab">Profil</a>
@@ -68,23 +78,12 @@
     </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabs = document.querySelectorAll('.user-tab');
-            const panels = document.querySelectorAll('.user-panel');
-
-            const activate = (name) => {
-                tabs.forEach(tab => tab.classList.toggle('text-orange-400', tab.dataset.tab === name));
-                panels.forEach(panel => panel.classList.toggle('hidden', panel.id !== 'tab-' + name));
-            };
-
-            tabs.forEach(tab => tab.addEventListener('click', (e) => {
+        document.querySelectorAll('.user-tab').forEach(tab => {
+            tab.addEventListener('click', e => {
                 e.preventDefault();
-                activate(tab.dataset.tab);
-                history.replaceState(null, '', '#' + tab.dataset.tab);
-            }));
-
-            const initial = location.hash.slice(1);
-            activate(document.getElementById('tab-' + initial) ? initial : 'profile');
+                document.querySelectorAll('.user-panel').forEach(p => p.classList.toggle('hidden', p.id !== 'tab-' + tab.dataset.tab));
+                {{--dataset.tab berie to, co je napisane v clase ako data-....  ak p.id neni tab-dataset.tab tak sa prida hiddne, ak podmienka neplati, tak sa odoberie--}}
+            });
         });
     </script>
 @endsection

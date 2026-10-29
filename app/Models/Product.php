@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string      $slug
  * @property string      $price             decimal(8,2)
  * @property string|null $description
+ * @property string|null $image             názov súboru v public/img/products
  * @property int         $stock
  * @property int|null    $nicotine_strength  obsah nikotínu v mg (null = bez nikotínu)
  * @property int|null    $brand_id
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
     'slug',
     'price',
     'description',
+    'image',
     'stock',
     'nicotine_strength',
     'brand_id',

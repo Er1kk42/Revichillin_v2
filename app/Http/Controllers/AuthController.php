@@ -70,6 +70,15 @@ class AuthController extends Controller
 
         return redirect()->route('user')->with('status', 'Profil bol úspešne uložený.');
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('welcome');
+    }
 }
 
 
