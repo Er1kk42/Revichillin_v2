@@ -4,12 +4,43 @@
     <section class="max-w-5xl mx-auto px-8 pt-32 pb-20">
         <h1 class="text-4xl font-bold mb-8">Košík</h1>
 
-        {{-- TODO: @forelse cez položky košíka – riadok s obrázkom, názvom, cenou za kus,
-                   tlačidlami +/− (PATCH cez AJAX), cenou položky a tlačidlom odstrániť (DELETE cez AJAX).
-                   Každý riadok označiť data-item-id, aby ho JS vedel nájsť a aktualizovať. --}}
+        <ul id="cart-list" class="flex flex-col gap-4">
+            @forelse ($cartItems as $cartItem)
+                <li class="cart-item flex items-center gap-4 rounded-xl bg-white/5 p-4" data-product-id="{{ $cartItem->product->id }}" data-item-id="{{ $cartItem->id }}">
+                    @if ($cartItem->product->image)
+                        <img src="{{ asset('img/products/'.$cartItem->product->image) }}" alt="{{ $cartItem->product->name }}"
+                             class="w-20 h-20 rounded-lg object-cover">
+                    @endif
 
-        {{-- TODO: @empty – prázdny stav: "Tvoj košík je prázdny" + tlačidlo "Pokračovať v nákupe" (/products) --}}
+                    <div class="flex-1">
+                        <h2 class="font-semibold">{{ $cartItem->product->name }}</h2>
+                        <p class="text-sm text-white/60">{{ number_format((float) $cartItem->product->price, 2, ',', ' ') }} € / ks</p>
+                    </div>
 
-        {{-- TODO: súhrn – celková suma (id pre aktualizáciu z JS) a tlačidlo "Pokračovať k objednávke" --}}
+                    <div class="flex items-center gap-2">
+                        <button type="button" class="cart-minus buttonsAll">−</button>
+                        <span class="cart-quantity w-8 text-center">{{ $cartItem->quantity }}</span>
+                        <button type="button" class="cart-plus buttonsAll">+</button>
+                    </div>
+
+                    <span class="cart-item-total w-24 text-right font-bold">{{ number_format($cartItem->product->price * $cartItem->quantity, 2, ',', ' ') }} €</span>
+
+                    <button type="button" class="cart-remove text-white/60 hover:text-red-400">Odstrániť</button>
+                </li>
+            @empty
+                <li class="text-white/60">Tvoj košík je prázdny.</li>
+            @endforelse
+        </ul>
+
+        <div id="cart-empty" class="{{ $cartItems->isEmpty() ? '' : 'hidden' }} mt-6">
+            <a href="{{ url('/products') }}" class="buttonsAll">Pokračovať v nákupe</a>
+        </div>
+
+        @if ($cartItems->isNotEmpty())
+            <div id="cart-summary" class="mt-8 flex items-center justify-between">
+                <span class="text-xl">Spolu: <strong id="cart-total">{{ number_format($price, 2, ',', ' ') }} €</strong></span>
+                <button type="button" class="buttonsAll">Pokračovať k objednávke</button>
+            </div>
+        @endif
     </section>
 @endsection

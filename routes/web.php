@@ -15,6 +15,9 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart');
+Route::post('/cart/{item}', [CartController::class, 'addToCart'])->middleware('auth')->name('cartAdd');
+Route::post('/cart/{item}/remove', [CartController::class, 'removeFromCart'])->middleware('auth')->name('cartRemove');
+Route::delete('/cart/{item}', [CartController::class, 'destroy'])->middleware('auth')->name('cartDestroy');
 // TODO: AJAX routy košíka (všetky s middleware('auth')):
 //       Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
 //       Route::patch('/cart/{item}', [CartController::class, 'update'])->name('cart.update');

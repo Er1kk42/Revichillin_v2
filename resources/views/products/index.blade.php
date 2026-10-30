@@ -54,13 +54,10 @@
 
                         <h2 class="mt-4 text-lg font-semibold hover:text-orange-400 transition-colors">{{ $product->name }}</h2>
                     </a>
-
                     <p class="mt-1 text-sm text-white/60 line-clamp-2">{{ $product->description }}</p>
-
                     <div class="mt-auto pt-4 flex items-center justify-between">
                         <span class="text-xl font-bold">{{ number_format((float) $product->price, 2, ',', ' ') }} €</span>
-                        {{-- TODO: data-product-id="{{ $product->id }}" + trieda, podľa ktorej tlačidlo nájde cart.js (AJAX POST /cart) --}}
-                        <button type="button" class="buttonsAll">Pridať do košíka</button>
+                        <button type="button" class="add-to-cart buttonsAll" data-url="{{ route('cartAdd', $product->id) }}">Pridať do košíka</button>
                     </div>
                 </li>
             @empty

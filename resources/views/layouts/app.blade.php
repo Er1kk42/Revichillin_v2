@@ -20,7 +20,7 @@
 
     <title>Revichillin</title>
 
-    {{-- TODO: <meta name="csrf-token" content="{{ csrf_token() }}"> – token pre AJAX requesty košíka --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- @vite načíta naše CSS a JS.
          - Počas vývoja (existuje súbor public/hot) vloží odkazy na Vite
