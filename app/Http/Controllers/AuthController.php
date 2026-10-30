@@ -55,6 +55,13 @@ class AuthController extends Controller
 
     }
 
+    public function showProfile()
+    {
+        $orders = auth()->user()->orders()->with('items.product')->latest()->get();
+
+        return view('user', ['orders' => $orders]);
+    }
+
     public function updateProfile(ProfileUpdateRequest $request)
     {
         $data = $request->validated();

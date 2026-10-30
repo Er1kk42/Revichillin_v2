@@ -38,6 +38,11 @@ export function setupCart() {
             return;
         }
 
+        const data = await response.json();
+        if (!response.ok) {
+            alert(data.message);
+            return;
+        }
 
         if (data.quantity > 0) {
             row.querySelector('.cart-quantity').textContent = data.quantity;

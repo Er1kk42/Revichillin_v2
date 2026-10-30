@@ -1,11 +1,12 @@
 <?php
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('welcome');
-Route::view('/user', 'user')->middleware('auth')->name('user');
+Route::get('/user', [AuthController::class, 'showProfile'])->middleware('auth')->name('user');
 Route::post('/user', [AuthController::class, 'updateProfile'])->middleware('auth')->name('user.update');
 Route::get('/test', function () {
     return 'ahoj';
@@ -18,6 +19,7 @@ Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name(
 Route::post('/cart/{item}', [CartController::class, 'addToCart'])->middleware('auth')->name('cartAdd');
 Route::post('/cart/{item}/remove', [CartController::class, 'removeFromCart'])->middleware('auth')->name('cartRemove');
 Route::delete('/cart/{item}', [CartController::class, 'destroy'])->middleware('auth')->name('cartDestroy');
+Route::post('/orders', [OrderController::class, 'store'])->middleware('auth')->name('orderStore');
 // TODO: AJAX routy košíka (všetky s middleware('auth')):
 //       Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
 //       Route::patch('/cart/{item}', [CartController::class, 'update'])->name('cart.update');

@@ -67,8 +67,36 @@
                 </form>
             </div>
 
-            <div id="tab-orders" class="user-panel mt-8 hidden text-center">
-                <p class="text-white/60">Zatiaľ nemáš žiadne objednávky.</p>
+            <div id="tab-orders" class="user-panel mt-8 hidden">
+                @if (session('order_status'))
+                    <p class="mb-4 rounded-lg border border-green-400/30 bg-green-400/10 px-4 py-2 text-sm text-green-300">
+                        {{ session('order_status') }}
+                    </p>
+                @endif
+
+                @forelse ($orders as $order)
+                    <div class="mb-4 rounded-xl border border-white/10 bg-white/5 p-4">
+                        <div class="flex items-center justify-between">
+                            <h2 class="font-semibold">Objednávka č. {{ $order->order_number }}</h2>
+                            <span class="text-sm text-white/60">{{ $order->created_at->format('d.m.Y H:i') }}</span>
+                        </div>
+
+                        <ul class="mt-3 space-y-1 text-sm">
+                            @foreach ($order->items as $orderItem)
+                                <li class="flex justify-between">
+                                    <span>{{ $orderItem->product->name }}</span>
+                                    <span class="text-white/60">{{ $orderItem->quantity }} ks</span>
+                                </li>
+                            @endforeach
+                        </ul>
+
+                        <p class="mt-3 border-t border-white/10 pt-3 text-right">
+                            Spolu: <strong>{{ number_format((float) $order->total_price, 2, ',', ' ') }} €</strong>
+                        </p>
+                    </div>
+                @empty
+                    <p class="text-center text-white/60">Zatiaľ nemáš žiadne objednávky.</p>
+                @endforelse
             </div>
 
             <div id="tab-posts" class="user-panel mt-8 hidden text-center">
@@ -85,5 +113,7 @@
                 {{--dataset.tab berie to, co je napisane v clase ako data-....  ak p.id neni tab-dataset.tab tak sa prida hiddne, ak podmienka neplati, tak sa odoberie--}}
             });
         });
+
+        document.querySelector(`.user-tab[data-tab="${location.hash.slice(1)}"]`)?.click();
     </script>
 @endsection

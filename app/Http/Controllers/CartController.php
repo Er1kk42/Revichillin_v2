@@ -21,7 +21,7 @@ class CartController extends Controller
     }
 
     public function addToCart(Product $item) {
-        $cartItem = CartItem::where('user_id', auth()->id())->where('product_id', $item->id)->first();
+        $cartItem = CartItem::where('user_id', auth()->id())->where('product_id', $item->id)->first(); //keby nahopdou ide viac, zapise len prvy
         $totalStock = $item->stock;
         if ($cartItem) {
             if($cartItem->quantity < $totalStock) {
