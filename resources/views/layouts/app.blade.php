@@ -223,6 +223,8 @@
     @yield('content')
 </main>
 
+<div id="flash" hidden data-success="{{ session('status') }}"></div>
+
 </body>
 
 <footer class="bg-neutral-900 text-white/70 px-8 py-10">

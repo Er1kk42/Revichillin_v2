@@ -43,6 +43,6 @@ class OrderController extends Controller
             return $order;
         });
 
-        return redirect()->to(route('user').'#orders')->with('order_status', 'Objednávka č. '.$order->order_number.' bola vytvorená.');
+        return redirect()->to(route('user').'#orders')->with('status', 'Objednávka č. '.$order->order_number.' bola vytvorená.');
     }
 }

@@ -48,6 +48,18 @@
     @apply active:scale-95;
   }
 
+  .is-loading {
+    @apply relative pointer-events-none;
+    color: transparent !important;
+  }
+
+  .is-loading::after {
+    content: '';
+    @apply absolute inset-0 m-auto size-4;
+    @apply rounded-full border-2 border-orange-400 border-t-transparent;
+    @apply animate-spin;
+  }
+
   .product-card {
     @apply flex flex-col p-4;
     @apply rounded-2xl border border-white/10 bg-black/70 backdrop-blur;

@@ -46,7 +46,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($loginData)) {
             $request->session()->regenerate();
-            return redirect()->route('welcome');
+            return redirect()->route('welcome')->with('status', 'Prihlásenie bolo úspešné.');
         }
 
         return back()

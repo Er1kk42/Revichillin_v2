@@ -1,21 +1,24 @@
+import { showToast } from './toast.js';
+
 export function setupCart() {
 
     //JS zachytí klik → pošle požiadavku → server (Laravel) skontroluje token a login → controller → JSON → JS ho spracu
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', async () => {
-            const res = await sendRequest('POST', button.dataset.url);
+            const res = await sendRequest('POST', button.dataset.url, button);
             if (res.status === 401) {
-                window.location.href = '/login';
+                showToast('Pre pridanie do košíka sa musíš prihlásiť.', true);
+                setTimeout(() => window.location.href = '/login', 1500);
                 return;
             }
             const data = await res.json();
             if (!res.ok) {
-                alert(data.message);
+                showToast(data.message, true);
                 return;
             }
             const counter = document.querySelector('#cart-count');
             if (counter) counter.textContent = data.count;
-            alert(data.message);
+            showToast(data.message);
         });
     });
 
@@ -29,18 +32,18 @@ export function setupCart() {
 
         let response;
         if (button.classList.contains('cart-plus')) {
-            response = await sendRequest('POST', `/cart/${row.dataset.productId}`);
+            response = await sendRequest('POST', `/cart/${row.dataset.productId}`, button);
         } else if (button.classList.contains('cart-minus')) {
-            response = await sendRequest('POST', `/cart/${row.dataset.productId}/remove`);
+            response = await sendRequest('POST', `/cart/${row.dataset.productId}/remove`, button);
         } else if (button.classList.contains('cart-remove')) {
-            response = await sendRequest('DELETE', `/cart/${row.dataset.itemId}`);
+            response = await sendRequest('DELETE', `/cart/${row.dataset.itemId}`, button);
         } else {
             return;
         }
 
         const data = await response.json();
         if (!response.ok) {
-            alert(data.message);
+            showToast(data.message, true);
             return;
         }
 
@@ -61,14 +64,22 @@ export function setupCart() {
     });
 }
 
-function sendRequest(method, url) {
-    return fetch(url, {
-        method,
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            'Accept': 'application/json',
-        },
-    });
+async function sendRequest(method, url, button) {
+    button.disabled = true;
+    button.classList.add('is-loading');
+
+    try {
+        return await fetch(url, {
+            method,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+            },
+        });
+    } finally {
+        button.disabled = false;
+        button.classList.remove('is-loading');
+    }
 }
 
 function formatPrice(price) {

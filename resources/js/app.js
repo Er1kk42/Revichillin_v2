@@ -14,6 +14,7 @@
 // slovom "export", a tu ju cez "import" sprístupníme.
 import { setupPriorityNav } from './navigation.js';
 import { setupCart } from './cart.js';
+import { setupFlash } from './toast.js';
 
 
 // DOMContentLoaded = udalosť, ktorá nastane, keď prehliadač načíta
@@ -26,3 +27,4 @@ import { setupCart } from './cart.js';
 // keď udalosť nastane.
 document.addEventListener('DOMContentLoaded', setupPriorityNav);
 document.addEventListener('DOMContentLoaded', setupCart);
+document.addEventListener('DOMContentLoaded', setupFlash);

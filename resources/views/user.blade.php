@@ -22,12 +22,6 @@
             </nav>
 
             <div id="tab-profile" class="user-panel mx-auto mt-8 max-w-md">
-                @if (session('status'))
-                    <p class="mb-4 rounded-lg border border-green-400/30 bg-green-400/10 px-4 py-2 text-sm text-green-300">
-                        {{ session('status') }}
-                    </p>
-                @endif
-
                 <form method="POST" action="{{ route('user.update') }}" class="space-y-4">
                     @csrf
 
@@ -68,12 +62,6 @@
             </div>
 
             <div id="tab-orders" class="user-panel mt-8 hidden">
-                @if (session('order_status'))
-                    <p class="mb-4 rounded-lg border border-green-400/30 bg-green-400/10 px-4 py-2 text-sm text-green-300">
-                        {{ session('order_status') }}
-                    </p>
-                @endif
-
                 @forelse ($orders as $order)
                     <div class="mb-4 rounded-xl border border-white/10 bg-white/5 p-4">
                         <div class="flex items-center justify-between">
