@@ -59,6 +59,7 @@
 
                     <div class="mt-auto pt-4 flex items-center justify-between">
                         <span class="text-xl font-bold">{{ number_format((float) $product->price, 2, ',', ' ') }} €</span>
+                        {{-- TODO: data-product-id="{{ $product->id }}" + trieda, podľa ktorej tlačidlo nájde cart.js (AJAX POST /cart) --}}
                         <button type="button" class="buttonsAll">Pridať do košíka</button>
                     </div>
                 </li>

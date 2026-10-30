@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,13 @@ Route::get('/test', function () {
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
+
+Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart');
+// TODO: AJAX routy košíka (všetky s middleware('auth')):
+//       Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+//       Route::patch('/cart/{item}', [CartController::class, 'update'])->name('cart.update');
+//       Route::delete('/cart/{item}', [CartController::class, 'destroy'])->name('cart.destroy');
+
 Route::get('/contacts', function () {
     return view('contacts');
 });

@@ -13,6 +13,7 @@
 // Funguje to vďaka ES modulom: v navigation.js je funkcia označená
 // slovom "export", a tu ju cez "import" sprístupníme.
 import { setupPriorityNav } from './navigation.js';
+import { setupCart } from './cart.js';
 
 
 // DOMContentLoaded = udalosť, ktorá nastane, keď prehliadač načíta
@@ -24,3 +25,4 @@ import { setupPriorityNav } from './navigation.js';
 // nie jej volanie (setupPriorityNav()). Prehliadač ju zavolá sám,
 // keď udalosť nastane.
 document.addEventListener('DOMContentLoaded', setupPriorityNav);
+document.addEventListener('DOMContentLoaded', setupCart);
