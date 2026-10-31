@@ -30,6 +30,15 @@ return [
 
     'disks' => [
 
+        'products' => [
+            'driver' => 'local',
+            'root' => public_path('img/products'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/img/products',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),

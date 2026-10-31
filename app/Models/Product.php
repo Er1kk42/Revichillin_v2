@@ -11,16 +11,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Produkt e-shopu s nikotínovými produktmi.
  *
- * @property int         $id
- * @property string      $name
- * @property string      $slug
- * @property string      $price             decimal(8,2)
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property string $price decimal(8,2)
  * @property string|null $description
- * @property string|null $image             názov súboru v public/img/products
- * @property int         $stock
- * @property int|null    $nicotine_strength  obsah nikotínu v mg (null = bez nikotínu)
- * @property int|null    $brand_id
- * @property int         $product_type_id
+ * @property string|null $image názov súboru v public/img/products
+ * @property int $stock
+ * @property int|null $nicotine_strength obsah nikotínu v mg (null = bez nikotínu)
+ * @property int|null $brand_id
+ * @property int $product_type_id
  */
 #[Fillable([
     'name',
@@ -95,5 +95,13 @@ class Product extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    /**
+     * @return HasMany<OrderItem, $this>
+     */
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

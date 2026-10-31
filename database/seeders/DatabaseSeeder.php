@@ -23,6 +23,15 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
         ]);
 
+        User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin',
+                'password' => 'password',
+                'role' => 'admin',
+            ],
+        );
+
         // User::factory(10)->create();
 
         User::factory()->create([
