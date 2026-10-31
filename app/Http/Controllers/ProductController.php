@@ -46,7 +46,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::with('reviews.user')->find($id);
         return view('products.show', ['product' => $product]);
     }
 }

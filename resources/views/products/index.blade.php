@@ -51,14 +51,15 @@
                                 Bez obrázka
                             </div>
                         @endif
-
-                        <h2 class="mt-4 text-lg font-semibold hover:text-orange-400 transition-colors">{{ $product->name }}</h2>
+                    </a>
+                    <div class="mt-4 flex items-center justify-between gap-3">
+                        <span class="text-xl font-bold">{{ number_format((float) $product->price, 2, ',', ' ') }} €</span>
+                        <button type="button" class="add-to-cart buttonsAll shrink-0" data-url="{{ route('cartAdd', $product->id) }}">Pridať do košíka</button>
+                    </div>
+                    <a href="{{ url('/products/'.$product->id) }}">
+                        <h2 class="mt-3 text-lg font-semibold hover:text-orange-400 transition-colors">{{ $product->name }}</h2>
                     </a>
                     <p class="mt-1 text-sm text-white/60 line-clamp-2">{{ $product->description }}</p>
-                    <div class="mt-auto pt-4 flex items-center justify-between">
-                        <span class="text-xl font-bold">{{ number_format((float) $product->price, 2, ',', ' ') }} €</span>
-                        <button type="button" class="add-to-cart buttonsAll" data-url="{{ route('cartAdd', $product->id) }}">Pridať do košíka</button>
-                    </div>
                 </li>
             @empty
                 <li class="text-white/60">Žiadne produkty na zobrazenie.</li>

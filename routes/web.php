@@ -2,6 +2,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,9 @@ Route::get('/test', function () {
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::post('/products/{product}/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviewStore');
+Route::patch('/reviews/{review}', [ReviewController::class, 'update'])->middleware('auth')->name('reviewUpdate');
+Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->middleware('auth')->name('reviewDestroy');
 
 Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart');
 Route::post('/cart/{item}', [CartController::class, 'addToCart'])->middleware('auth')->name('cartAdd');

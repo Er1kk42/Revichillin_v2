@@ -18,6 +18,7 @@ class ProductSeeder extends Seeder
             'slug' => 'killa-mint',
             'price' => 4.99,
             'description' => 'Osviežujúca mätová príchuť',
+            'image' => 'KillaColdMint.png',
             'stock' => 50,
             'nicotine_strength' => 12,
             'brand_id' => 5,
