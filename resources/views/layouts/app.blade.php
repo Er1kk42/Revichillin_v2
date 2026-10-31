@@ -225,6 +225,15 @@
 
 <div id="flash" hidden data-success="{{ session('status') }}"></div>
 
+{{-- NAČÍTAVACIA OBRAZOVKA - zobrazí ju resources/js/loader.js pri prechode na inú stránku.
+     Vonkajší div prekryje celé okno (fixed inset-0) a ikonu vycentruje.
+     Ikona je obyčajný kruh 60x60 px s okrajom, ktorému chýba horná časť
+     (border-t-transparent), a animate-spin ho točí dokola.
+     backdrop-blur-sm rozmaže všetko, čo je POD prekrytím (CSS backdrop-filter: blur). --}}
+<div id="page-loader" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/38 backdrop-blur-xs">
+    <div class="size-[60px] rounded-full border-6 border-orange-400 border-t-transparent animate-spin"></div>
+</div>
+
 </body>
 
 <footer class="bg-neutral-900 text-white/70 px-8 py-10">

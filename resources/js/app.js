@@ -15,6 +15,7 @@
 import { setupPriorityNav } from './navigation.js';
 import { setupCart } from './cart.js';
 import { setupFlash } from './toast.js';
+import { setupPageLoader } from './loader.js';
 
 
 // DOMContentLoaded = udalosť, ktorá nastane, keď prehliadač načíta
@@ -28,3 +29,4 @@ import { setupFlash } from './toast.js';
 document.addEventListener('DOMContentLoaded', setupPriorityNav);
 document.addEventListener('DOMContentLoaded', setupCart);
 document.addEventListener('DOMContentLoaded', setupFlash);
+document.addEventListener('DOMContentLoaded', setupPageLoader);
