@@ -6,3 +6,6 @@ storage/logs/*
 storage/framework/cache/*
 storage/framework/sessions/*
 storage/framework/views/*
+# Nahrané a dočasné súbory (napr. livewire-tmp z Filament uploadu) - do image
+# ich netreba, projekt sa aj tak mapuje cez volume v docker-compose.yml
+storage/app/*

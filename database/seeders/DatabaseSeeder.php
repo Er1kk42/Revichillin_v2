@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             FlavorSeeder::class,
             ProductTypeSeeder::class,
             CategorySeeder::class,
+            // Produkty až po číselníkoch – odkazujú na typy, značky, príchute a kategórie.
+            ProductSeeder::class,
         ]);
 
         User::updateOrCreate(
@@ -32,11 +34,13 @@ class DatabaseSeeder extends Seeder
             ],
         );
 
-        // User::factory(10)->create();
-
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Objednávky až na konci – odkazujú na používateľov aj produkty,
+        // ktoré musia v tomto momente už existovať.
+        $this->call(OrderSeeder::class);
     }
 }

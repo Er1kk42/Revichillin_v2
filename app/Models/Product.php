@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property int $id
  * @property string $name
- * @property string $slug
  * @property string $price decimal(8,2)
  * @property string|null $description
  * @property string|null $image názov súboru v public/img/products
@@ -24,7 +23,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 #[Fillable([
     'name',
-    'slug',
     'price',
     'description',
     'image',

@@ -7,7 +7,6 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -22,7 +21,6 @@ class AuthController extends Controller
     {
         $data = $request->validated();
 
-        //dd($data);
         $user = User::create([
            'name' => $data['name'],
            'email' => $data['email'],
@@ -32,7 +30,7 @@ class AuthController extends Controller
 
         Auth::login($user);
         $request->session()->regenerate();
-        return redirect()->route('home');
+        return redirect()->route('welcome');
     }
 
     public function showLogin()

@@ -1,75 +1,114 @@
 /* ============================================================================
-   VLASTNÉ TRIEDY PRE MENU
+   ZÁKLADNÉ KOMPONENTY: menu, všeobecné tlačidlo, loader, karta produktu, filter
    ----------------------------------------------------------------------------
-   Tento súbor sa načítava cez @import v app.css.
-
-   PRINCÍP @apply:
-   Namiesto toho, aby sme pri KAŽDOM odkaze v menu písali v Blade dlhý rad
-   tried, napr.:
-       class="inline-block transition-[scale,color] duration-320 ease-out
-              hover:scale-[1.28] text-white/80 hover:text-orange-400"
-   tieto Tailwind triedy "zbalíme" cez @apply do jednej vlastnej triedy.
-   V HTML potom stačí napísať: class="menu-item".
-
-   Výhody:
-     - kratší a prehľadnejší HTML kód,
-     - zmena vzhľadu menu sa robí na JEDNOM mieste (tu), nie pri každej položke.
-
-   Do tohto súboru sa dá písať aj úplne bežné CSS (color: red; a pod.),
-   Tailwind ho nechá tak, ako je.
+   Čisté CSS (pôvodne písané cez Tailwind @apply, vzhľad je rovnaký).
+   @layer components = vrstva pre vlastné triedy. Tailwind triedy priamo
+   v HTML (vrstva utilities) ich vedia prebiť, napr. class="buttonsAll mt-2".
    ============================================================================ */
 
-
-/* @layer components - zaradí triedu do vrstvy "components".
-   Tailwind má vrstvy v poradí: theme -> base -> components -> utilities.
-   Neskoršia vrstva má prednosť, takže bežné utility triedy (napr. scale-125)
-   dokážu našu .menu-item prebiť. Príklad: class="menu-item text-red-500"
-   bude mať červenú farbu, aj keď .menu-item nastavuje bielu. */
 @layer components {
-  .menu-item {
-    /* inline-block: odkaz <a> je štandardne "inline" (riadkový) element
-       a na inline elementy sa transformácie (scale, rotate...) NEAPLIKUJÚ.
-       Bez tohto riadku by sa položka menu pri hoveri nezväčšila. */
-    @apply inline-block;
-    @apply transition-[scale,color];
-    @apply duration-320;
-    @apply ease-out;
-    @apply hover:scale-[1.28];
-    @apply text-white/80 hover:text-orange-400;
-  }
 
-  .buttonsAll {
-    @apply inline-block cursor-pointer;
-    @apply px-5 py-2 rounded-full;
-    @apply border border-white/40 bg-black/75;
-    @apply text-sm font-medium text-white;
-    @apply transition-[scale,background-color,color] duration-300 ease-out;
-    @apply hover:scale-110 hover:bg-white hover:text-black;
-    @apply active:scale-95;
-  }
+    /* Položka v hornom menu */
+    .menu-item {
+        /* inline-block: na inline elementy (<a>) sa transformácie (scale)
+           neaplikujú, bez toho by sa položka pri hoveri nezväčšila */
+        display: inline-block;
+        color: rgba(255, 255, 255, 0.8);
+        transition: scale 320ms ease-out, color 320ms ease-out;
+    }
 
-  .is-loading {
-    @apply relative pointer-events-none;
-    color: transparent !important;
-  }
+    .menu-item:hover {
+        scale: 1.28;
+        color: #ff8904;
+    }
 
-  .is-loading::after {
-    content: '';
-    @apply absolute inset-0 m-auto size-4;
-    @apply rounded-full border-2 border-orange-400 border-t-transparent;
-    @apply animate-spin;
-  }
+    /* Všeobecné tlačidlo (prihlásenie v menu, +/- v košíku, recenzia...) */
+    .buttonsAll {
+        display: inline-block;
+        cursor: pointer;
+        padding: 0.5rem 1.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 9999px;              /* úplne zaoblené (tvar pilulky) */
+        background-color: rgba(0, 0, 0, 0.75);
+        color: #fff;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        font-weight: 500;
+        transition: scale 300ms ease-out, background-color 300ms ease-out, color 300ms ease-out;
+    }
 
-  .product-card {
-    @apply flex flex-col p-4;
-    @apply rounded-2xl border border-white/10 bg-black/70 backdrop-blur;
-    @apply transition-colors duration-300 hover:border-orange-400/60;
-  }
+    .buttonsAll:hover {
+        scale: 1.1;
+        background-color: #fff;
+        color: #000;
+    }
 
-  .filter-panel {
-    @apply flex flex-col gap-2;
-    @apply w-full max-w-lg mx-auto mt-4 min-h-16 p-4;
-    @apply rounded-2xl border border-white/10 bg-black/70 backdrop-blur;
-    @apply text-sm;
-  }
+    /* :active = počas stlačenia tlačidla myšou */
+    .buttonsAll:active {
+        scale: 0.95;
+    }
+
+    /* Tlačidlo počas AJAX požiadavky (trieda sa pridáva v resources/js/cart.js) */
+    .is-loading {
+        position: relative;                 /* aby sa ::after umiestnil vzhľadom na tlačidlo */
+        pointer-events: none;               /* počas načítania sa nedá znova kliknúť */
+        color: transparent !important;      /* skryje text, ostane len točiace sa koliesko */
+    }
+
+    /* Točiace sa koliesko = prázdny element s okrajom, ktorému chýba horná časť */
+    .is-loading::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        margin: auto;                       /* s inset: 0 vycentruje koliesko */
+        width: 1rem;
+        height: 1rem;
+        border: 2px solid #ff8904;
+        border-top-color: transparent;
+        border-radius: 9999px;
+        animation: spinner 1s linear infinite;
+    }
+
+    /* Karta produktu v zozname produktov */
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);         /* rozmaže pozadie za kartou */
+        transition: border-color 300ms, scale 300ms ease-out;
+    }
+
+    /* Pri hoveri sa karta jemne zväčší (o 3 %) a okraj sa zafarbí */
+    .product-card:hover {
+        scale: 1.03;
+        border-color: rgba(255, 137, 4, 0.6);
+    }
+
+    /* Rozbaľovací panel s možnosťami filtra (checkboxy, posuvník) */
+    .filter-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        max-width: 32rem;
+        min-height: 4rem;
+        margin: 1rem auto 0;
+        padding: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+}
+
+/* Animácia otáčania pre loader (.is-loading::after) – z 0° na 360° dookola */
+@keyframes spinner {
+    to {
+        rotate: 360deg;
+    }
 }

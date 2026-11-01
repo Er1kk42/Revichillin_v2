@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="max-w-5xl mx-auto px-8 pt-32 pb-20">
-        <h1 class="text-4xl font-bold mb-8">Produkty</h1>
+    <section class="page-section">
+        <h1 class="mb-8">Produkty</h1>
 
         <form id="filters" method="GET" action="{{ url('/products') }}">
             <nav class="flex flex-wrap justify-center gap-15 pb-4 border-b border-white/10">
-                <button type="button" data-filter="productType" class="buttonsAll filter-tab">Typ</button>
-                <button type="button" data-filter="flavors" class="buttonsAll filter-tab">Príchuť</button>
-                <button type="button" data-filter="nicotine_strength" class="buttonsAll filter-tab">Sila</button>
-                <button type="button" data-filter="brand" class="buttonsAll filter-tab">Značka</button>
-                <button type="button" data-filter="price" class="buttonsAll filter-tab">Cena</button>
+                <button type="button" data-filter="productType" class="btn-filter filter-tab">Typ</button>
+                <button type="button" data-filter="flavors" class="btn-filter filter-tab">Príchuť</button>
+                <button type="button" data-filter="nicotine_strength" class="btn-filter filter-tab">Sila</button>
+                <button type="button" data-filter="brand" class="btn-filter filter-tab">Značka</button>
+                <button type="button" data-filter="price" class="btn-filter filter-tab">Cena</button>
             </nav>
 
             @foreach ($options as $filter => $items)
@@ -45,21 +45,21 @@
                     <a href="{{ url('/products/'.$product->id) }}" class="block">
                         @if ($product->image)
                             <img src="{{ asset('img/products/'.$product->image) }}" alt="{{ $product->name }}"
-                                 class="aspect-square w-full rounded-xl object-cover">
+                                 class="product-image">
                         @else
-                            <div class="aspect-square w-full rounded-xl bg-white/5 flex items-center justify-center text-white/30 text-sm">
+                            <div class="product-image-empty">
                                 Bez obrázka
                             </div>
                         @endif
                     </a>
                     <div class="mt-4 flex items-center justify-between gap-3">
-                        <span class="text-xl font-bold">{{ number_format((float) $product->price, 2, ',', ' ') }} €</span>
-                        <button type="button" class="add-to-cart buttonsAll shrink-0" data-url="{{ route('cartAdd', $product->id) }}">Pridať do košíka</button>
+                        <span class="price text-xl">{{ number_format((float) $product->price, 2, ',', ' ') }} €</span>
+                        <button type="button" class="add-to-cart btn-buy shrink-0" data-url="{{ route('cartAdd', $product->id) }}">Pridať do košíka</button>
                     </div>
                     <a href="{{ url('/products/'.$product->id) }}">
                         <h2 class="mt-3 text-lg font-semibold hover:text-orange-400 transition-colors">{{ $product->name }}</h2>
                     </a>
-                    <p class="mt-1 text-sm text-white/60 line-clamp-2">{{ $product->description }}</p>
+                    <p class="descriptions mt-1 text-sm line-clamp-2">{{ $product->description }}</p>
                 </li>
             @empty
                 <li class="text-white/60">Žiadne produkty na zobrazenie.</li>

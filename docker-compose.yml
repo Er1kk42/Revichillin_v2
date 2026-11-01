@@ -10,6 +10,12 @@ services:
     working_dir: /var/www
     volumes:
       - ./:/var/www
+    # Kontajner "app" sa spustí až keď je MySQL pripravená (healthcheck nižšie
+    # hlási "healthy"). Bez toho by entrypoint skúšal spustiť migrácie skôr,
+    # než databáza beží, a skončil by chybou.
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - revichillin
 
@@ -40,6 +46,15 @@ services:
       - "3307:3306"
     volumes:
       - dbdata:/var/lib/mysql
+    # Healthcheck = Docker každých 5 s skúsi, či MySQL odpovedá (mysqladmin ping).
+    # -h 127.0.0.1 = pripájame sa cez sieť (TCP): pri prvom štarte MySQL najprv
+    # beží dočasne bez siete, kým vytvára databázu a používateľa, takže ping
+    # uspeje až keď je naozaj pripravená. retries 20 = čaká max. ~100 s.
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     networks:
       - revichillin
 

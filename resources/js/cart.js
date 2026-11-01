@@ -16,8 +16,6 @@ export function setupCart() {
                 showToast(data.message, true);
                 return;
             }
-            const counter = document.querySelector('#cart-count');
-            if (counter) counter.textContent = data.count;
             showToast(data.message);
         });
     });

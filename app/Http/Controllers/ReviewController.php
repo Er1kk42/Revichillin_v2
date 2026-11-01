@@ -19,7 +19,6 @@ class ReviewController extends Controller
         $hasPurchased = $request->user()
             ->orders()
             ->whereRelation('items', 'product_id', $product->id)
-            //->whereHas('items', fn ($query) => $query->where('product_id', $product->id))
             ->exists();
 
         if (! $hasPurchased) {

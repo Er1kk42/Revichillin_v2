@@ -8,9 +8,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Str;
 
 class ProductForm
 {
@@ -26,18 +24,7 @@ class ProductForm
                             ->label('Názov')
                             ->required()
                             ->maxLength(255)
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function (string $operation, ?string $state, Set $set): void {
-                                if ($operation === 'create') {
-                                    $set('slug', Str::slug($state ?? ''));
-                                }
-                            }),
-                        TextInput::make('slug')
-                            ->label('Slug')
-                            ->required()
-                            ->maxLength(255)
-                            ->alphaDash()
-                            ->unique(ignoreRecord: true),
+                            ->columnSpanFull(),
                         Textarea::make('description')
                             ->label('Popis')
                             ->rows(5)

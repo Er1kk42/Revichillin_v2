@@ -9,7 +9,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                            class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition-colors duration-300">
+                            class="btn-danger">
                         Odhlásiť sa
                     </button>
                 </form>
@@ -26,36 +26,36 @@
                     @csrf
 
                     <div>
-                        <label for="name" class="block text-sm text-white/60 mb-1">Meno</label>
+                        <label for="name" class="form-label">Meno</label>
                         <input id="name" name="name" type="text" value="{{ old('name', auth()->user()->name) }}" required
-                               class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white focus:outline-none focus:border-orange-400/60">
+                               class="form-input">
                         @error('name')
-                            <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                            <p class="form-error">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label for="current_password" class="block text-sm text-white/60 mb-1">Staré heslo</label>
+                        <label for="current_password" class="form-label">Staré heslo</label>
                         <input id="current_password" name="current_password" type="password" placeholder="Zadaj aktuálne heslo"
                                autocomplete="current-password"
-                               class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white placeholder-white/30 focus:outline-none focus:border-orange-400/60">
+                               class="form-input">
                         @error('current_password')
-                            <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                            <p class="form-error">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label for="password" class="block text-sm text-white/60 mb-1">Nové heslo</label>
+                        <label for="password" class="form-label">Nové heslo</label>
                         <input id="password" name="password" type="password" placeholder="Nechaj prázdne, ak ho nemeníš"
                                autocomplete="new-password"
-                               class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white placeholder-white/30 focus:outline-none focus:border-orange-400/60">
+                               class="form-input">
                         @error('password')
-                            <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                            <p class="form-error">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <button type="submit"
-                            class="block w-1/2 rounded-2xl mx-auto border border-white/40 py-2 text-sm font-medium uppercase tracking-wider hover:bg-white hover:text-black transition-colors duration-300">
+                            class="btn-form w-1/2 mx-auto">
                         Uložiť zmeny
                     </button>
                 </form>
@@ -110,7 +110,7 @@
                                 <form method="POST" action="{{ route('reviewDestroy', $review) }}" onsubmit="return confirm('Naozaj chceš zmazať túto recenziu?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="rounded-lg bg-red-600 px-4 py-1 text-sm text-white hover:bg-red-700 transition-colors duration-300">
+                                    <button type="submit" class="btn-danger py-1">
                                         Zmazať
                                     </button>
                                 </form>
@@ -121,7 +121,7 @@
                             @csrf
                             @method('PATCH')
                             <textarea name="text" rows="3" required maxlength="2000"
-                                      class="w-full rounded-lg border border-white/10 bg-white/5 p-2 text-white focus:outline-none focus:border-orange-400/60">{{ $review->text }}</textarea>
+                                      class="form-input">{{ $review->text }}</textarea>
 
                             <div class="mt-2 flex justify-end gap-2">
                                 <button type="button" class="review-cancel-btn rounded-lg border border-white/40 px-4 py-1 text-sm hover:bg-white hover:text-black transition-colors duration-300">

@@ -20,6 +20,13 @@
 
     <title>Revichillin</title>
 
+    {{-- Font Montserrat z Google Fonts (používa ho h1 v resources/css/custom.css).
+         preconnect = prehliadač sa vopred pripojí na servery Google Fonts,
+         takže sa font stiahne rýchlejšie. display=swap = kým sa font načíta,
+         text sa zobrazí systémovým fontom (nie je neviditeľný). --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- @vite načíta naše CSS a JS.
@@ -175,7 +182,6 @@
 
         </div>
 
-        {{-- TODO: počítadlo položiek košíka (badge s id, ktoré bude JS aktualizovať po AJAX requeste) --}}
         <a href="{{ route('cart') }}" class="menu-item">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-7 w-7 m-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
@@ -247,7 +253,7 @@
 
         {{-- Stĺpec 2: odkazy --}}
         <div>
-            <h4 class="text-white font-semibold mb-3">Navigácia</h4>
+            <h4>Navigácia</h4>
             <ul class="space-y-2 text-sm">
                 <li><a href="/" class="hover:text-orange-400 transition-colors">Domov</a></li>
                 <li><a href="/products" class="hover:text-orange-400 transition-colors">Produkty</a></li>
@@ -257,7 +263,7 @@
 
         {{-- Stĺpec 3: dolezite info --}}
         <div>
-            <h4 class="text-white font-semibold mb-3">Info</h4>
+            <h4>Info</h4>
             <p class="text-sm">Predaj len osobám nad 18 rokov.</p>
         </div>
 
