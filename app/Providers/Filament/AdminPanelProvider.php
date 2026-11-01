@@ -1,5 +1,5 @@
 <?php
-
+//ciatocne upravene pomocou AI
 namespace App\Providers\Filament;
 
 use App\Http\Middleware\SetAdminLocale;
