@@ -1,5 +1,5 @@
 @extends('layouts.app')
-//ciatocne upravene pomocou AI
+{{-- ciatocne upravene pomocou AI --}}
 @section('content')
     <section class="max-w-4xl mx-auto px-4 pt-32 pb-20">
         <div class="card p-8 min-h-[400px]">

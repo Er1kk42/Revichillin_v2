@@ -1,4 +1,4 @@
-//ciatocne upravene pomocou AI
+{{-- ciatocne upravene pomocou AI --}}
 @extends('layouts.app')
 
 @section('content')

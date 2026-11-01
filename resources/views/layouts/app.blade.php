@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-    //ciatocne upravene pomocou AI
+    {{-- ciatocne upravene pomocou AI --}}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revichillin</title>
