@@ -74,8 +74,9 @@ export function setupPriorityNav() {
         // či sa už skryté položky zmestia späť.
         // --------------------------------------------------------------------
 
-        // Zobrazíme všetky položky (trieda "hidden" z Tailwindu = display: none)
-        items.forEach(item => item.classList.remove('hidden'));
+        // Zobrazíme všetky položky (trieda "hidden" z Tailwindu = display: none).
+        // toggle('hidden', podmienka) = ak je podmienka true, trieda sa pridá, inak sa odoberie.
+        items.forEach((item) => item.classList.toggle('hidden', false));
 
         // Vyprázdnime rozbaľovacie menu (odstránime kópie z minulého výpočtu)
         dropdown.innerHTML = '';
@@ -101,32 +102,33 @@ export function setupPriorityNav() {
         // getBoundingClientRect().width vracia presnú šírku aj s desatinami
         // (offsetWidth zaokrúhľuje na celé pixely a pri veľa položkách
         // by sa chyby zaokrúhlenia sčítali).
-        const widths = items.map(item => item.getBoundingClientRect().width);
+        const widths = items.map((item) => item.getBoundingClientRect().width);
 
         // Celková šírka = súčet šírok všetkých položiek + medzery MEDZI nimi.
         // .reduce() prejde pole a "zhrnie" ho do jednej hodnoty (tu súčet),
         // začína od 0.
         // Medzier je o jednu menej ako položiek (3 položky = 2 medzery).
-        const total = widths.reduce((sum, w) => sum + w, 0) + gap * (items.length - 1);
+        const total = widths.reduce((sum, width) => sum + width, 0) + gap * (items.length - 1);
 
         // --------------------------------------------------------------------
         // KROK 3: VŠETKO SA ZMESTÍ?
         // Ak áno, tlačidlo "⋯" nepotrebujeme - skryjeme ho, zavrieme
         // rozbaľovacie menu a funkciu ukončíme (return).
         // --------------------------------------------------------------------
-        if (total <= available) {
-            moreBtn.classList.add('hidden');
-            closeDropdown();
+        const allItemsFit = total <= available;
+        moreBtn.classList.toggle('hidden', allItemsFit);
+
+        if (allItemsFit) {
+            toggleDropdown(false);
             return;
         }
 
         // --------------------------------------------------------------------
         // KROK 4: NEZMESTÍ SA - pripravíme miesto pre tlačidlo "⋯"
-        // Tlačidlo najprv zobrazíme (aby sme ho vedeli zmerať) a jeho šírku
+        // Tlačidlo je už zobrazené (krok 3), takže ho vieme zmerať. Jeho šírku
         // aj medzeru pred ním odrátame z dostupného miesta. Inak by
         // tlačidlo "⋯" samo vytlačilo poslednú položku mimo obrazovky.
         // --------------------------------------------------------------------
-        moreBtn.classList.remove('hidden');
         const wrapperGap = parseFloat(getComputedStyle(wrapper).columnGap) || 0;
         const space = available - moreBtn.getBoundingClientRect().width - wrapperGap;
 
@@ -140,15 +142,16 @@ export function setupPriorityNav() {
         // --------------------------------------------------------------------
         let used = 0; // koľko miesta sme už "spotrebovali"
 
-        items.forEach((item, i) => {
+        items.forEach((item, index) => {
             // Pripočítame šírku položky + medzeru pred ňou
-            // (prvá položka, i = 0, pred sebou medzeru nemá)
-            used += widths[i] + (i > 0 ? gap : 0);
+            // (prvá položka, index = 0, pred sebou medzeru nemá)
+            used += widths[index] + (index > 0 ? gap : 0);
 
-            if (used > space) {
-                // Položka sa nezmestí -> skryjeme ju v hlavnom menu
-                item.classList.add('hidden');
+            // Položka, ktorá sa nezmestí, sa v hlavnom menu skryje
+            const fits = used <= space;
+            item.classList.toggle('hidden', !fits);
 
+            if (!fits) {
                 // Vytvoríme jej kópiu. cloneNode(true) = "hlboká" kópia,
                 // skopíruje aj všetko vnútri (odkaz <a>, text, triedy).
                 // Kópiu robíme preto, aby originál ostal na svojom mieste
@@ -157,7 +160,7 @@ export function setupPriorityNav() {
 
                 // Originál sme práve skryli, takže aj kópia má triedu "hidden".
                 // Tú odstránime, aby bola v rozbaľovacom menu viditeľná.
-                clone.classList.remove('hidden');
+                clone.classList.toggle('hidden', false);
 
                 // Vložíme kópiu na koniec rozbaľovacieho menu
                 dropdown.appendChild(clone);
@@ -167,14 +170,14 @@ export function setupPriorityNav() {
 
 
     // ========================================================================
-    // ZATVORENIE ROZBAĽOVACIEHO MENU
-    // Dropdown je buď "hidden" (display: none = skrytý),
-    // alebo "flex" (display: flex = viditeľný, položky pod sebou vďaka flex-col).
-    // Samostatná funkcia, lebo zatvárame z dvoch miest (recalculate, klik mimo).
+    // OTVORENIE / ZATVORENIE ROZBAĽOVACIEHO MENU
+    // isOpen = true -> menu sa zobrazí, false -> skryje.
+    // Dropdown má v HTML natrvalo "flex" (položky pod sebou vďaka flex-col),
+    // prepíname len "hidden" (display: none). Samostatná funkcia, lebo menu
+    // ovládame z troch miest (recalculate, klik na "⋯", klik mimo).
     // ========================================================================
-    function closeDropdown() {
-        dropdown.classList.add('hidden');
-        dropdown.classList.remove('flex');
+    function toggleDropdown(isOpen) {
+        dropdown.classList.toggle('hidden', !isOpen);
     }
 
 
@@ -207,23 +210,22 @@ export function setupPriorityNav() {
     // OVLÁDANIE ROZBAĽOVACIEHO MENU
     // ========================================================================
 
-    // Klik na "⋯" prepne rozbaľovacie menu (otvorené <-> zatvorené).
-    // classList.toggle('x') = ak trieda x je, odstráni ju; ak nie je, pridá ju.
-    moreBtn.addEventListener('click', (e) => {
+    // Klik na "⋯" prepne rozbaľovacie menu (otvorené <-> zatvorené):
+    // ak je teraz skryté, otvoríme ho, inak ho zatvoríme.
+    moreBtn.addEventListener('click', (event) => {
         // stopPropagation() zastaví "prebublanie" kliknutia vyššie v DOM.
         // Bez toho by klik došiel aj k listeneru na document (nižšie),
         // ten by menu hneď zase zavrel a nikdy by sa neotvorilo.
-        e.stopPropagation();
+        event.stopPropagation();
 
-        dropdown.classList.toggle('hidden');
-        dropdown.classList.toggle('flex');
+        toggleDropdown(dropdown.classList.contains('hidden'));
     });
 
     // Klik KDEKOĽVEK na stránke mimo rozbaľovacieho menu ho zavrie
     // (bežné správanie, ktoré používatelia očakávajú).
-    // dropdown.contains(e.target) = či kliknutý element leží vnútri menu.
-    document.addEventListener('click', (e) => {
-        if (!dropdown.contains(e.target)) closeDropdown();
+    // dropdown.contains(event.target) = či kliknutý element leží vnútri menu.
+    document.addEventListener('click', (event) => {
+        if (!dropdown.contains(event.target)) toggleDropdown(false);
     });
 
 

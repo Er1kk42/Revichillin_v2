@@ -20,7 +20,7 @@ class LoginRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array  //fail-fast
+    public function rules(): array  // fail-fast
     {
         return [
             'email' => ['required', 'email'],

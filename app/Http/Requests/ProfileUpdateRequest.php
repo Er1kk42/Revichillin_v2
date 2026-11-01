@@ -25,7 +25,7 @@ class ProfileUpdateRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'name.required' => 'Meno je povinné.',

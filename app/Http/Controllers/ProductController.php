@@ -26,15 +26,15 @@ class ProductController extends Controller
         $query = Product::query();
 
         foreach (array_keys($options) as $relation) {
-            $query->when($request->filled($relation), fn ($q) => $q->whereHas(
+            $query->when($request->filled($relation), fn ($productQuery) => $productQuery->whereHas(
                 $relation,
-                fn ($q) => $q->whereIn('slug', (array) $request->input($relation))
+                fn ($relationQuery) => $relationQuery->whereIn('slug', (array) $request->input($relation))
             ));
         }
 
         foreach ($maxima as $column => $max) {
             $query->when($request->integer($column, $max) < $max,
-                fn ($q) => $q->where($column, '<=', $request->integer($column)));
+                fn ($productQuery) => $productQuery->where($column, '<=', $request->integer($column)));
         }
 
         return view('products.index', [
@@ -44,11 +44,10 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show(Product $product)
     {
-        $product = Product::with('reviews.user')->find($id);
+        $product->load('reviews.user');
+
         return view('products.show', ['product' => $product]);
     }
 }
-
-

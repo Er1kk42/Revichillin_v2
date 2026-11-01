@@ -16,18 +16,18 @@
             </div>
 
             <nav class="flex flex-wrap justify-center gap-15 mt-6 pb-4 border-b border-white/10">
-                <a href="#profile" data-tab="profile" class="menu-item user-tab">Profil</a>
-                <a href="#orders" data-tab="orders" class="menu-item user-tab">História objednávok</a>
-                <a href="#posts" data-tab="posts" class="menu-item user-tab">Moje recenzie</a>
+                <a href="#profile" data-tab="profile" class="menu-item">Profil</a>
+                <a href="#orders" data-tab="orders" class="menu-item">História objednávok</a>
+                <a href="#posts" data-tab="posts" class="menu-item">Moje recenzie</a>
             </nav>
 
-            <div id="tab-profile" class="user-panel mx-auto mt-8 max-w-md">
-                <form method="POST" action="{{ route('user.update') }}" class="space-y-4">
+            <div data-tab-panel="profile" class="mx-auto mt-8 max-w-md">
+                <form method="POST" action="{{ route('userUpdate') }}" class="space-y-4" data-validate>
                     @csrf
 
                     <div>
                         <label for="name" class="form-label">Meno</label>
-                        <input id="name" name="name" type="text" value="{{ old('name', auth()->user()->name) }}" required
+                        <input id="name" name="name" type="text" value="{{ old('name', auth()->user()->name) }}" required maxlength="255"
                                class="form-input">
                         @error('name')
                             <p class="form-error">{{ $message }}</p>
@@ -37,7 +37,7 @@
                     <div>
                         <label for="current_password" class="form-label">Staré heslo</label>
                         <input id="current_password" name="current_password" type="password" placeholder="Zadaj aktuálne heslo"
-                               autocomplete="current-password"
+                               autocomplete="current-password" data-required-with="password"
                                class="form-input">
                         @error('current_password')
                             <p class="form-error">{{ $message }}</p>
@@ -47,7 +47,7 @@
                     <div>
                         <label for="password" class="form-label">Nové heslo</label>
                         <input id="password" name="password" type="password" placeholder="Nechaj prázdne, ak ho nemeníš"
-                               autocomplete="new-password"
+                               autocomplete="new-password" minlength="8"
                                class="form-input">
                         @error('password')
                             <p class="form-error">{{ $message }}</p>
@@ -61,7 +61,7 @@
                 </form>
             </div>
 
-            <div id="tab-orders" class="user-panel mt-8 hidden">
+            <div data-tab-panel="orders" class="mt-8 hidden">
                 @forelse ($orders as $order)
                     <div class="mb-4 rounded-xl border border-white/10 bg-white/5 p-4">
                         <div class="flex items-center justify-between">
@@ -79,7 +79,7 @@
                         </ul>
 
                         <p class="mt-3 border-t border-white/10 pt-3 text-right">
-                            Spolu: <strong>{{ number_format((float) $order->total_price, 2, ',', ' ') }} €</strong>
+                            Spolu: <strong><x-price :value="$order->total_price" /></strong>
                         </p>
                     </div>
                 @empty
@@ -87,27 +87,27 @@
                 @endforelse
             </div>
 
-            <div id="tab-posts" class="user-panel mt-8 hidden">
+            <div data-tab-panel="posts" class="mt-8 hidden">
                 @error('text', 'reviewUpdate')
                     <p class="mb-4 text-center text-red-400 text-sm">{{ $message }}</p>
                 @enderror
 
                 @forelse ($reviews as $review)
-                    <div class="review-card mb-4 rounded-xl border border-white/10 bg-white/5 p-4">
+                    <div class="mb-4 rounded-xl border border-white/10 bg-white/5 p-4" data-review>
                         <div class="flex items-center justify-between">
-                            <a href="/products/{{ $review->product->id }}" class="font-semibold hover:text-orange-400 transition-colors">{{ $review->product->name }}</a>
+                            <a href="{{ route('productShow', $review->product->id) }}" class="font-semibold hover:text-orange-400 transition-colors">{{ $review->product->name }}</a>
                             <span class="text-sm text-white/60">{{ $review->created_at->format('d.m.Y H:i') }}</span>
                         </div>
 
-                        <div class="review-view">
+                        <div data-review-view>
                             <p class="mt-3 text-white/80">{{ $review->text }}</p>
 
                             <div class="mt-3 flex justify-end gap-2">
-                                <button type="button" class="review-edit-btn rounded-lg border border-white/40 px-4 py-1 text-sm hover:bg-white hover:text-black transition-colors duration-300">
+                                <button type="button" data-review-edit-btn class="rounded-lg border border-white/40 px-4 py-1 text-sm hover:bg-white hover:text-black transition-colors duration-300">
                                     Upraviť
                                 </button>
 
-                                <form method="POST" action="{{ route('reviewDestroy', $review) }}" onsubmit="return confirm('Naozaj chceš zmazať túto recenziu?')">
+                                <form method="POST" action="{{ route('reviewDestroy', $review) }}" data-confirm="Naozaj chceš zmazať túto recenziu?">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn-danger py-1">
@@ -117,14 +117,14 @@
                             </div>
                         </div>
 
-                        <form method="POST" action="{{ route('reviewUpdate', $review) }}" class="review-edit mt-3 hidden">
+                        <form method="POST" action="{{ route('reviewUpdate', $review) }}" class="mt-3 hidden" data-review-edit data-validate>
                             @csrf
                             @method('PATCH')
                             <textarea name="text" rows="3" required maxlength="2000"
                                       class="form-input">{{ $review->text }}</textarea>
 
                             <div class="mt-2 flex justify-end gap-2">
-                                <button type="button" class="review-cancel-btn rounded-lg border border-white/40 px-4 py-1 text-sm hover:bg-white hover:text-black transition-colors duration-300">
+                                <button type="button" data-review-cancel-btn class="rounded-lg border border-white/40 px-4 py-1 text-sm hover:bg-white hover:text-black transition-colors duration-300">
                                     Zrušiť
                                 </button>
                                 <button type="submit" class="rounded-lg bg-orange-500 px-4 py-1 text-sm text-white hover:bg-orange-600 transition-colors duration-300">
@@ -139,34 +139,4 @@
             </div>
         </div>
     </section>
-
-    <script>
-        document.querySelectorAll('.user-tab').forEach(tab => {
-            tab.addEventListener('click', e => {
-                e.preventDefault();
-                document.querySelectorAll('.user-panel').forEach(p => p.classList.toggle('hidden', p.id !== 'tab-' + tab.dataset.tab));
-                {{--dataset.tab berie to, co je napisane v clase ako data-....  ak p.id neni tab-dataset.tab tak sa prida hiddne, ak podmienka neplati, tak sa odoberie--}}
-            });
-        });
-
-        document.querySelector(`.user-tab[data-tab="${location.hash.slice(1)}"]`)?.click();
-
-        document.querySelectorAll('.review-card').forEach(card => {
-            const view = card.querySelector('.review-view');
-            const edit = card.querySelector('.review-edit');
-
-            {{--ked pouzivatel stlaci edit tlacidlo, schova sa preview a ukaze sa vpisovacie okno--}}
-            card.querySelector('.review-edit-btn').addEventListener('click', () => {
-                view.classList.add('hidden');
-                edit.classList.remove('hidden');
-            });
-
-            {{--ked stlaci zrusit, schova sa edit okno a zobreazi sa view--}}
-            card.querySelector('.review-cancel-btn').addEventListener('click', () => {
-                view.classList.remove('hidden');
-                edit.classList.add('hidden');
-            });
-
-        });
-    </script>
 @endsection

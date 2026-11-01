@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Produkt e-shopu s nikotínovými produktmi.
@@ -16,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $price decimal(8,2)
  * @property string|null $description
  * @property string|null $image názov súboru v public/img/products
+ * @property-read string|null $image_url celá URL obrázka (null, ak produkt obrázok nemá)
  * @property int $stock
  * @property int|null $nicotine_strength obsah nikotínu v mg (null = bez nikotínu)
  * @property int|null $brand_id
@@ -101,5 +104,17 @@ class Product extends Model
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    /**
+     * URL obrázka produktu. Cestu berieme z disku "products" (config/filesystems.php),
+     * na ktorý obrázky ukladá aj admin (Filament) – adresa je tak na jednom mieste.
+     * Vo view: $product->image_url
+     *
+     * @return Attribute<string|null, never>
+     */
+    protected function imageUrl(): Attribute
+    {
+        return Attribute::get(fn () => $this->image ? Storage::disk('products')->url($this->image) : null);
     }
 }

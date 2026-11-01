@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CartItem;
 use App\Models\Order;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function store()
+    public function store(Request $request)
     {
-        $cartItems = CartItem::with('product')->where('user_id', auth()->id())->get();
+        $user = $request->user();
+        $cartItems = $user->cartItems()->with('product')->get();
 
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart')->with('error', 'Košík je prázdny.');
@@ -22,27 +23,26 @@ class OrderController extends Controller
             }
         }
 
-        $order = DB::transaction(function () use ($cartItems) {
-            $order = Order::create([
+        $order = DB::transaction(function () use ($user, $cartItems) {
+            $order = $user->orders()->create([
                 'order_number' => (Order::lockForUpdate()->max('order_number') ?? 0) + 1,
-                'user_id'      => auth()->id(),
-                'total_price'  => $cartItems->sum(fn ($cartItem) => $cartItem->product->price * $cartItem->quantity),
+                'total_price' => $cartItems->sum('total'),
             ]);
 
             foreach ($cartItems as $cartItem) {
                 $order->items()->create([
                     'product_id' => $cartItem->product_id,
-                    'quantity'   => $cartItem->quantity,
-                    'price'      => $cartItem->product->price,
+                    'quantity' => $cartItem->quantity,
+                    'price' => $cartItem->product->price,
                 ]);
                 $cartItem->product->decrement('stock', $cartItem->quantity);
             }
 
-            CartItem::where('user_id', auth()->id())->delete();
+            $user->cartItems()->delete();
 
             return $order;
         });
 
-        return redirect()->to(route('user').'#orders')->with('status', 'Objednávka č. '.$order->order_number.' bola vytvorená.');
+        return redirect()->route('user')->withFragment('orders')->with('status', 'Objednávka č. '.$order->order_number.' bola vytvorená.');
     }
 }

@@ -21,17 +21,17 @@ class RegisterRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array //FAIL-FAST
+    public function rules(): array // FAIL-FAST
     {
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email', 'max:255'],
-            'birth_date' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->toDateString()],
+            'birth_date' => ['required', 'date', 'before_or_equal:'.now()->subYears(18)->toDateString()],
             'password' => ['required', 'confirmed', 'min:8', Password::defaults()],
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'birth_date.before_or_equal' => 'Musíš mať aspoň 18 rokov.',

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * Každý produkt patrí práve do jedného typu (povinný vzťah).
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $slug
  */

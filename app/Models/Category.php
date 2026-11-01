@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * Produkt môže patriť do viacerých kategórií naraz – na rozdiel od ProductType,
  * ktorý má produkt práve jeden.
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $slug
  */

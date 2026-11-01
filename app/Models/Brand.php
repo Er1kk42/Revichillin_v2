@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Značka / výrobca produktu (napr. VELO, IQOS, Marlboro).
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $slug
  */

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * Príchuť produktu (napr. Mint, Mango, Cola).
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $slug
  */

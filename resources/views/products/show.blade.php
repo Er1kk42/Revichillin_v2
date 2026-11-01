@@ -2,14 +2,14 @@
 
 @section('content')
     <section class="max-w-3xl mx-auto px-8 pt-32 pb-20 bg-black/72">
-        <a href="{{ url('/products') }}" class="text-sm text-white/60 hover:text-orange-400 transition-colors duration-300">
+        <a href="{{ route('products') }}" class="text-sm text-white/60 hover:text-orange-400 transition-colors duration-300">
             &larr; Späť na produkty
         </a>
 
         <h1 class="mt-4 mb-2">{{ $product->name }}</h1>
         <div class="w-[25vw] min-w-64 mb-6 mx-auto">
             @if ($product->image)
-                <img src="{{ asset('img/products/'.$product->image) }}" alt="{{ $product->name }}"
+                <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
                      class="product-image">
             @else
                 <div class="product-image-empty">
@@ -17,8 +17,8 @@
                 </div>
             @endif
             <div class="mt-4 flex items-center justify-between gap-3">
-                <p class="price text-2xl">{{ number_format((float) $product->price, 2) }} €</p>
-                <button type="button" class="add-to-cart btn-buy shrink-0" data-url="{{ route('cartAdd', $product->id) }}">Pridať do košíka</button>
+                <p class="price text-2xl"><x-price :value="$product->price" /></p>
+                <button type="button" class="btn-buy shrink-0" data-cart-add data-url="{{ route('cartAdd', $product->id) }}">Pridať do košíka</button>
             </div>
         </div>
         @if ($product->description)
@@ -31,7 +31,7 @@
                 <dt class="text-white/50 uppercase tracking-wider">Skladom</dt>
                 <dd class="text-white mt-1">{{ $product->stock }} ks</dd>
             </div>
-            @if (! is_null($product->nicotine_strength))
+            @if ($product->nicotine_strength !== null)
                 <div>
                     <dt class="text-white/50 uppercase tracking-wider">Sila nikotínu</dt>
                     <dd class="text-white mt-1">{{ $product->nicotine_strength }} mg</dd>
@@ -53,9 +53,9 @@
         @endforelse
 
         @auth
-            <form method="POST" action="{{ route('reviewStore', $product) }}" class="mt-6">
+            <form method="POST" action="{{ route('reviewStore', $product) }}" class="mt-6" data-validate>
                 @csrf
-                <textarea name="text" rows="3" required class="form-input">{{ old('text') }}</textarea>
+                <textarea name="text" rows="3" required maxlength="2000" class="form-input">{{ old('text') }}</textarea>
                 @error('text')
                     <p class="form-error">{{ $message }}</p>
                 @enderror

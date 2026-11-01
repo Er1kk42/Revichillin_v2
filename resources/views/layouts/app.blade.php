@@ -28,6 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="login-url" content="{{ route('login') }}">
 
     {{-- @vite načíta naše CSS a JS.
          - Počas vývoja (existuje súbor public/hot) vloží odkazy na Vite
@@ -72,7 +73,7 @@
     <nav class="flex items-center justify-between px-8 py-5">
 
         {{-- Logo - odkaz na domovskú stránku --}}
-        <a href="/" class="text-xl font-bold tracking-wide">
+        <a href="{{ route('welcome') }}" class="text-xl font-bold tracking-wide">
             REVICHILLIN
         </a>
 
@@ -106,50 +107,22 @@
             --}}
             <ul id="nav-items" class="flex gap-14 text-sm font-medium uppercase tracking-wider">
                 <li data-nav-item>
-                    <a href="/" class="menu-item">
+                    <a href="{{ route('welcome') }}" class="menu-item">
                         Domov
                     </a>
                 </li>
                 <li data-nav-item>
-                    <a href="/products" class="menu-item">
+                    <a href="{{ route('products') }}" class="menu-item">
                         Produkty
                     </a>
                 </li>
                 <li data-nav-item>
-                    <a href="/contacts" class="menu-item">
-                        Kontakt
-                    </a>
-                </li>
-
-                {{-- TESTOVACIE POLOŽKY - slúžia len na vyskúšanie, že sa položky
-                     presúvajú do "⋯" (pred odovzdaním ich treba odstrániť) --}}
-                <li data-nav-item>
-                    <a href="/contacts" class="menu-item">
-                        Kontakt
+                    <a href="{{ route('about') }}" class="menu-item">
+                        O nás
                     </a>
                 </li>
                 <li data-nav-item>
-                    <a href="/contacts" class="menu-item">
-                        Kontakt
-                    </a>
-                </li>
-                <li data-nav-item>
-                    <a href="/contacts" class="menu-item">
-                        Kontakt
-                    </a>
-                </li>
-                <li data-nav-item>
-                    <a href="/contacts" class="menu-item">
-                        Kontakt
-                    </a>
-                </li>
-                <li data-nav-item>
-                    <a href="/contacts" class="menu-item">
-                        Kontakt
-                    </a>
-                </li>
-                <li data-nav-item>
-                    <a href="/contacts" class="menu-item">
+                    <a href="{{ route('contacts') }}" class="menu-item">
                         Kontakt
                     </a>
                 </li>
@@ -172,12 +145,14 @@
 
                 {{-- Rozbaľovacie menu - na začiatku PRÁZDNE, JS doň vkladá
                      kópie položiek, ktoré sa nezmestili.
-                     - hidden = zatvorené; JS pri otvorení vymení "hidden" za "flex"
+                     - hidden = zatvorené; JS pri otvorení len odoberie "hidden"
+                     - flex = natrvalo; kým má element aj "hidden", vyhrá hidden
+                       (v CSS Tailwindu je .hidden až za .flex), takže je skrytý
                      - absolute right-0 top-full mt-2 = hneď pod tlačidlom,
                        zarovnané k pravému okraju, s malým odstupom
                      - flex-col gap-3 = položky pod sebou s medzerou
                      - whitespace-nowrap = text položky sa nezalomí do dvoch riadkov --}}
-                <ul id="nav-more-dropdown" class="hidden absolute right-0 top-full mt-2 bg-black/90 rounded-lg p-4 flex-col gap-3 text-sm font-medium uppercase tracking-wider whitespace-nowrap"></ul>
+                <ul id="nav-more-dropdown" class="hidden flex absolute right-0 top-full mt-2 bg-black/90 rounded-lg p-4 flex-col gap-3 text-sm font-medium uppercase tracking-wider whitespace-nowrap"></ul>
             </div>
 
         </div>
@@ -194,7 +169,7 @@
              - hover:bg-white hover:text-black = pri hoveri sa farby otočia
              - transition-colors duration-300 = zmena farieb je plynulá (300 ms) --}}
         @guest
-        <a href="/login"
+        <a href="{{ route('login') }}"
            class="buttonsAll">
             Prihlásiť sa
         </a>
@@ -235,8 +210,9 @@
      Vonkajší div prekryje celé okno (fixed inset-0) a ikonu vycentruje.
      Ikona je obyčajný kruh 60x60 px s okrajom, ktorému chýba horná časť
      (border-t-transparent), a animate-spin ho točí dokola.
-     backdrop-blur-sm rozmaže všetko, čo je POD prekrytím (CSS backdrop-filter: blur). --}}
-<div id="page-loader" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/38 backdrop-blur-xs">
+     backdrop-blur-sm rozmaže všetko, čo je POD prekrytím (CSS backdrop-filter: blur).
+     "hidden flex": flex je tu natrvalo (kvôli centrovaniu), JS prepína iba "hidden". --}}
+<div id="page-loader" class="hidden flex fixed inset-0 z-[100] items-center justify-center bg-black/38 backdrop-blur-xs">
     <div class="size-[60px] rounded-full border-6 border-orange-400 border-t-transparent animate-spin"></div>
 </div>
 
@@ -255,9 +231,10 @@
         <div>
             <h4>Navigácia</h4>
             <ul class="space-y-2 text-sm">
-                <li><a href="/" class="hover:text-orange-400 transition-colors">Domov</a></li>
-                <li><a href="/products" class="hover:text-orange-400 transition-colors">Produkty</a></li>
-                <li><a href="/contacts" class="hover:text-orange-400 transition-colors">Kontakt</a></li>
+                <li><a href="{{ route('welcome') }}" class="hover:text-orange-400 transition-colors">Domov</a></li>
+                <li><a href="{{ route('products') }}" class="hover:text-orange-400 transition-colors">Produkty</a></li>
+                <li><a href="{{ route('about') }}" class="hover:text-orange-400 transition-colors">O nás</a></li>
+                <li><a href="{{ route('contacts') }}" class="hover:text-orange-400 transition-colors">Kontakt</a></li>
             </ul>
         </div>
 

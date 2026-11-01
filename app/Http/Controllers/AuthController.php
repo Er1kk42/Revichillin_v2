@@ -6,12 +6,11 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-
     public function showRegister()
     {
         return view('register');
@@ -19,61 +18,55 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $data = $request->validated();
-
-        $user = User::create([
-           'name' => $data['name'],
-           'email' => $data['email'],
-           'birth_date' => $data['birth_date'],
-           'password' => $data['password'],
-        ]);
+        $user = User::create($request->validated());
 
         Auth::login($user);
         $request->session()->regenerate();
+
         return redirect()->route('welcome');
     }
 
     public function showLogin()
     {
-        return view('login');  // ← toto posiela výsledok do View
+        return view('login');
     }
 
     public function login(LoginRequest $request)
     {
-        $loginData = $request->validated();
+        $validated = $request->validated();
 
-        if (Auth::attempt($loginData)) {
+        if (Auth::attempt($validated)) {
             $request->session()->regenerate();
+
             return redirect()->route('welcome')->with('status', 'Prihlásenie bolo úspešné.');
         }
 
         return back()
-            ->withErrors(['Nespravne heslo alebo e-mail'])
+            ->withErrors(['email' => 'Nesprávny e-mail alebo heslo.'])
             ->onlyInput('email');
 
     }
 
-    public function showProfile()
+    public function showProfile(Request $request)
     {
-        $orders = auth()->user()->orders()->with('items.product')->latest()->get();
+        $orders = $request->user()->orders()->with('items.product')->latest()->get();
 
-        $reviews = auth()->user()->reviews()->with('product')->latest()->get();
+        $reviews = $request->user()->reviews()->with('product')->latest()->get();
 
         return view('user', ['orders' => $orders, 'reviews' => $reviews]);
     }
 
     public function updateProfile(ProfileUpdateRequest $request)
     {
-        $data = $request->validated();
-        $user = $request->user();
+        $validated = $request->validated();
+        $changes = ['name' => $validated['name']];
 
-        $user->name = $data['name'];
-
-        if (! empty($data['password'])) {
-            $user->password = $data['password'];
+        // Heslo meníme, len ak používateľ vyplnil nové (prázdne pole = heslo ostáva).
+        if ($request->filled('password')) {
+            $changes['password'] = $validated['password'];
         }
 
-        $user->save();
+        $request->user()->update($changes);
 
         return redirect()->route('user')->with('status', 'Profil bol úspešne uložený.');
     }
@@ -87,5 +80,3 @@ class AuthController extends Controller
         return redirect()->route('welcome');
     }
 }
-
-

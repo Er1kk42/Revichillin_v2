@@ -4,7 +4,7 @@
     <section class="page-section-narrow">
         <h1 class="mb-8">Prihlásenie</h1>
 
-        <form method="POST" action="{{ route('login.submit') }}" class="space-y-4">
+        <form method="POST" action="{{ route('loginSubmit') }}" class="space-y-4" data-validate>
             @csrf
 
             <div>
@@ -32,7 +32,7 @@
         </form>
 
         <p class="text-white/60 text-sm mt-6">
-            Nemáte účet? <a href="/register" class="link-accent">Zaregistrujte sa</a>
+            Nemáte účet? <a href="{{ route('register') }}" class="link-accent">Zaregistrujte sa</a>
         </p>
     </section>
 @endsection

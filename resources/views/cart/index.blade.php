@@ -12,26 +12,26 @@
 
         <ul id="cart-list" class="flex flex-col gap-4">
             @forelse ($cartItems as $cartItem)
-                <li class="cart-item flex items-center gap-4 rounded-xl bg-white/5 p-4" data-product-id="{{ $cartItem->product->id }}" data-item-id="{{ $cartItem->id }}">
+                <li class="flex items-center gap-4 rounded-xl bg-white/5 p-4" data-cart-item>
                     @if ($cartItem->product->image)
-                        <img src="{{ asset('img/products/'.$cartItem->product->image) }}" alt="{{ $cartItem->product->name }}"
+                        <img src="{{ $cartItem->product->image_url }}" alt="{{ $cartItem->product->name }}"
                              class="w-20 h-20 rounded-lg object-cover">
                     @endif
 
                     <div class="flex-1">
                         <h2 class="font-semibold">{{ $cartItem->product->name }}</h2>
-                        <p class="text-sm text-white/60">{{ number_format((float) $cartItem->product->price, 2, ',', ' ') }} € / ks</p>
+                        <p class="text-sm text-white/60"><x-price :value="$cartItem->product->price" /> / ks</p>
                     </div>
 
                     <div class="flex items-center gap-2">
-                        <button type="button" class="cart-minus buttonsAll">−</button>
-                        <span class="cart-quantity w-8 text-center">{{ $cartItem->quantity }}</span>
-                        <button type="button" class="cart-plus buttonsAll">+</button>
+                        <button type="button" class="buttonsAll" data-url="{{ route('cartRemove', $cartItem->product->id) }}">−</button>
+                        <span class="w-8 text-center" data-cart-quantity>{{ $cartItem->quantity }}</span>
+                        <button type="button" class="buttonsAll" data-url="{{ route('cartAdd', $cartItem->product->id) }}">+</button>
                     </div>
 
-                    <span class="cart-item-total w-24 text-right font-bold">{{ number_format($cartItem->product->price * $cartItem->quantity, 2, ',', ' ') }} €</span>
+                    <span class="w-24 text-right font-bold" data-cart-item-total><x-price :value="$cartItem->total" /></span>
 
-                    <button type="button" class="cart-remove btn-danger">Odstrániť</button>
+                    <button type="button" class="btn-danger" data-url="{{ route('cartDestroy', $cartItem->id) }}" data-method="DELETE">Odstrániť</button>
                 </li>
             @empty
                 <li class="text-white/60">Tvoj košík je prázdny.</li>
@@ -39,12 +39,12 @@
         </ul>
 
         <div id="cart-empty" class="{{ $cartItems->isEmpty() ? '' : 'hidden' }} mt-6">
-            <a href="{{ url('/products') }}" class="buttonsAll">Pokračovať v nákupe</a>
+            <a href="{{ route('products') }}" class="buttonsAll">Pokračovať v nákupe</a>
         </div>
 
         @if ($cartItems->isNotEmpty())
             <div id="cart-summary" class="mt-8 flex items-center justify-between">
-                <span class="text-xl">Spolu: <strong id="cart-total">{{ number_format($price, 2, ',', ' ') }} €</strong></span>
+                <span class="text-xl">Spolu: <strong id="cart-total"><x-price :value="$price" /></strong></span>
                 <div class="flex items-center gap-4">
                     <button type="button" class="buttonsAll">Pokračovať k objednávke</button>
                     <form method="POST" action="{{ route('orderStore') }}">

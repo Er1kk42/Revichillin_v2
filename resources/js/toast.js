@@ -1,16 +1,25 @@
+// ============================================================================
+// TOAST – krátka správa v pravom dolnom rohu
+// ----------------------------------------------------------------------------
+// showToast('text')        -> zelená správa (úspech)
+// showToast('text', true)  -> červená správa (chyba)
+// Správa po 3 sekundách zmizne. Vzhľad je v resources/css/custom.css (.toast).
+//
+// setupFlash(): controller pošle správu cez ->with('status', '...'), layout ju
+// vypíše do skrytého <div id="flash" data-success="..."> a odtiaľ z nej
+// po načítaní stránky spravíme toast.
+// ============================================================================
+
 export function showToast(message, isError = false) {
     const toast = document.createElement('div');
     toast.textContent = message;
-    toast.className = 'fixed bottom-6 right-6 z-50 rounded-lg border px-4 py-3 text-sm backdrop-blur transition-opacity duration-300 '
-        + (isError
-            ? 'border-red-400/30 bg-red-950/80 text-red-300'
-            : 'border-green-400/30 bg-green-950/80 text-green-300');
+    toast.className = `toast ${isError ? 'toast-error' : 'toast-success'}`;
 
     document.body.appendChild(toast);
 
     setTimeout(() => {
-        toast.classList.add('opacity-0');
-        setTimeout(() => toast.remove(), 300);
+        toast.classList.toggle('is-hiding', true);  // spustí CSS prechod (opacity -> 0)
+        setTimeout(() => toast.remove(), 300);      // po skončení prechodu element odstránime
     }, 3000);
 }
 
@@ -20,7 +29,3 @@ export function setupFlash() {
         showToast(flash.dataset.success);
     }
 }
-// Ako to funguje:
-//   - resources/js/toast.js je nový súbor so showToast(). cart.js ho teraz importuje, takže ho môžeš použiť aj v hocijakom ďalšom JS súbore.
-//   - Controller pošle správu cez ->with('status', '...'). Layout ju vypíše do skrytého <div id="flash" data-success="..."> a setupFlash() v app.js z neho po načítaní stránky spraví toast. Funguje to na každej stránke, takže pri
-//     ďalšej úspešnej akcii stačí v controlleri pridať ->with('status', '...').

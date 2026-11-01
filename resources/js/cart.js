@@ -3,41 +3,38 @@ import { showToast } from './toast.js';
 export function setupCart() {
 
     //JS zachytí klik → pošle požiadavku → server (Laravel) skontroluje token a login → controller → JSON → JS ho spracu
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', async () => {
-            const res = await sendRequest('POST', button.dataset.url, button);
-            if (res.status === 401) {
-                showToast('Pre pridanie do košíka sa musíš prihlásiť.', true);
-                setTimeout(() => window.location.href = '/login', 1500);
-                return;
-            }
-            const data = await res.json();
-            if (!res.ok) {
-                showToast(data.message, true);
-                return;
-            }
-            showToast(data.message);
-        });
+    // Listener je na celom dokumente (delegovanie udalosti), nie na každom tlačidle zvlášť.
+    // Vďaka tomu funguje aj pre tlačidlá, ktoré pribudnú neskôr – napr. po filtrovaní
+    // produktov (filters.js vymení celý zoznam produktov za nový).
+    document.addEventListener('click', async (event) => {
+        const button = event.target.closest('[data-cart-add]');
+        if (!button) return;
+
+        const response = await sendRequest('POST', button.dataset.url, button);
+        if (response.status === 401) {
+            showToast('Pre pridanie do košíka sa musíš prihlásiť.', true);
+            setTimeout(() => window.location.href = document.querySelector('meta[name="login-url"]').content, 1500);
+            return;
+        }
+        const data = await response.json();
+        if (!response.ok) {
+            showToast(data.message, true);
+            return;
+        }
+        showToast(data.message);
     });
 
     const list = document.getElementById('cart-list');
     if (!list) return;
 
     list.addEventListener('click', async (event) => {
-        const button = event.target.closest('button');
-        const row = event.target.closest('.cart-item');
+        // URL (a pri odstránení aj metódu DELETE) má každé tlačidlo v data-url / data-method,
+        // vygenerované v Blade cez route() – v JS preto nie sú natvrdo napísané adresy.
+        const button = event.target.closest('button[data-url]');
+        const row = event.target.closest('[data-cart-item]');
         if (!button || !row) return;
 
-        let response;
-        if (button.classList.contains('cart-plus')) {
-            response = await sendRequest('POST', `/cart/${row.dataset.productId}`, button);
-        } else if (button.classList.contains('cart-minus')) {
-            response = await sendRequest('POST', `/cart/${row.dataset.productId}/remove`, button);
-        } else if (button.classList.contains('cart-remove')) {
-            response = await sendRequest('DELETE', `/cart/${row.dataset.itemId}`, button);
-        } else {
-            return;
-        }
+        const response = await sendRequest(button.dataset.method ?? 'POST', button.dataset.url, button);
 
         const data = await response.json();
         if (!response.ok) {
@@ -46,8 +43,8 @@ export function setupCart() {
         }
 
         if (data.quantity > 0) {
-            row.querySelector('.cart-quantity').textContent = data.quantity;
-            row.querySelector('.cart-item-total').textContent = formatPrice(data.item_total);
+            row.querySelector('[data-cart-quantity]').textContent = data.quantity;
+            row.querySelector('[data-cart-item-total]').textContent = formatPrice(data.item_total);
         } else {
             row.remove();
         }
@@ -57,14 +54,19 @@ export function setupCart() {
         if (data.cart_count === 0) {
             list.innerHTML = '<li class="text-white/60">Tvoj košík je prázdny.</li>';
             document.getElementById('cart-summary').remove();
-            document.getElementById('cart-empty').classList.remove('hidden');
+            document.getElementById('cart-empty').classList.toggle('hidden', false);
         }
     });
 }
 
 async function sendRequest(method, url, button) {
-    button.disabled = true;
-    button.classList.add('is-loading');
+    // Počas požiadavky je tlačidlo neaktívne a točí sa na ňom koliesko (.is-loading)
+    const toggleLoading = (isLoading) => {
+        button.disabled = isLoading;
+        button.classList.toggle('is-loading', isLoading);
+    };
+
+    toggleLoading(true);
 
     try {
         return await fetch(url, {
@@ -75,11 +77,11 @@ async function sendRequest(method, url, button) {
             },
         });
     } finally {
-        button.disabled = false;
-        button.classList.remove('is-loading');
+        toggleLoading(false);
     }
 }
 
 function formatPrice(price) {
-    return Number(price).toLocaleString('sk-SK', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    const formatted = Number(price).toLocaleString('sk-SK', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return `${formatted} €`;
 }

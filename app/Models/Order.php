@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property int    $id
- * @property int    $order_number
- * @property int    $user_id
- * @property string $total_price  decimal(10,2)
+ * @property int $id
+ * @property int $order_number
+ * @property int $user_id
+ * @property string $total_price decimal(10,2)
  */
 #[Fillable(['order_number', 'user_id', 'total_price'])]
 class Order extends Model
