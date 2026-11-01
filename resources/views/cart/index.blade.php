@@ -12,7 +12,7 @@
 
         <ul id="cart-list" class="flex flex-col gap-4">
             @forelse ($cartItems as $cartItem)
-                <li class="flex items-center gap-4 rounded-xl bg-white/5 p-4" data-cart-item>
+                <li class="card flex items-center gap-4" data-cart-item>
                     @if ($cartItem->product->image)
                         <img src="{{ $cartItem->product->image_url }}" alt="{{ $cartItem->product->name }}"
                              class="w-20 h-20 rounded-lg object-cover">

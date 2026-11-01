@@ -10,18 +10,13 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // Číselníky pre e-shop – bezpečné spustiť opakovane (updateOrCreate podľa slug).
         $this->call([
             BrandSeeder::class,
             FlavorSeeder::class,
             ProductTypeSeeder::class,
             CategorySeeder::class,
-            // Produkty až po číselníkoch – odkazujú na typy, značky, príchute a kategórie.
             ProductSeeder::class,
         ]);
 
@@ -39,8 +34,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        // Objednávky až na konci – odkazujú na používateľov aj produkty,
-        // ktoré musia v tomto momente už existovať.
         $this->call(OrderSeeder::class);
     }
 }

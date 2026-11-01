@@ -11,17 +11,17 @@ class CartController extends Controller
 {
     public function index(Request $request)
     {
-        $cartItems = $request->user()->cartItems()->with('product')->get(); // with('product') zavola sa metoda product z CartItem
+        $cartItems = $request->user()->cartItems()->with('product')->get();
 
         return view('cart.index', [
             'cartItems' => $cartItems,
-            'price' => $cartItems->sum('total'), // total = cena položky (CartItem::total)
+            'price' => $cartItems->sum('total'),
         ]);
     }
 
     public function addToCart(Request $request, Product $item)
     {
-        $cartItem = $request->user()->cartItems()->where('product_id', $item->id)->first(); // keby nahodou ide viac, zapise len prvy
+        $cartItem = $request->user()->cartItems()->where('product_id', $item->id)->first();
         $totalStock = $item->stock;
         if ($cartItem) {
             if ($cartItem->quantity < $totalStock) {
@@ -37,7 +37,6 @@ class CartController extends Controller
                     'message' => 'Viac kusov tohto produktu nie je na sklade.',
                 ], 422);
             }
-            // create, where, find, orderBy niesu v modeli priamo, laravel ich presmeruje cez php metodu __callStatic
             $request->user()->cartItems()->create([
                 'product_id' => $item->id,
                 'quantity' => 1,

@@ -40,7 +40,7 @@
 
         <ul id="product-list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-10">
             @forelse ($products as $product)
-                <li class="product-card">
+                <li class="card product-card">
                     <a href="{{ route('productShow', $product->id) }}" class="block">
                         @if ($product->image)
                             <img src="{{ $product->image_url }}" alt="{{ $product->name }}"

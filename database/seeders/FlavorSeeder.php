@@ -6,9 +6,6 @@ use App\Models\Flavor;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-/**
- * Naplní tabuľku "flavors" ukážkovými príchuťami na testovanie.
- */
 class FlavorSeeder extends Seeder
 {
     public function run(): void

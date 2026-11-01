@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $order_id
  * @property int $product_id
  * @property int $quantity
- * @property string $price decimal(8,2) – cena za kus v čase objednávky
+ * @property string $price
  */
 #[Fillable(['order_id', 'product_id', 'quantity', 'price'])]
 class OrderItem extends Model

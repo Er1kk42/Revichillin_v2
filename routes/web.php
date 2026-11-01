@@ -1,9 +1,10 @@
 <?php
+
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('welcome');
@@ -14,10 +15,10 @@ Route::view('/gallery', 'gallery')->name('gallery');
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('productShow');
 
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::view('/register', 'register')->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('registerSubmit');
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::view('/login', 'login')->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('loginSubmit');
 
 Route::middleware('auth')->group(function () {
@@ -37,6 +38,3 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-
-

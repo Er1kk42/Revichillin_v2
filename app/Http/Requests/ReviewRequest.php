@@ -12,10 +12,6 @@ class ReviewRequest extends FormRequest
         return $this->user() !== null;
     }
 
-    /**
-     * Pri úprave recenzie (PATCH) ukladáme chyby do samostatného "error bagu" reviewUpdate,
-     * aby sa v profile zobrazili pri správnom formulári (@error('text', 'reviewUpdate')).
-     */
     protected function prepareForValidation(): void
     {
         if ($this->isMethod('patch')) {

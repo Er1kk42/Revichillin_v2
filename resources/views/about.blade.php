@@ -1,19 +1,11 @@
 @extends('layouts.app')
 
-{{--
-    STRÁNKA "O NÁS"
-    Statická stránka (routes/web.php: Route::view('/about', 'about')).
-    Príbeh firmy je FIKTÍVNY – slúži len na ukážku v rámci školského projektu.
---}}
 @section('content')
     <section class="page-section">
-
-        {{-- ===== Úvod ===== --}}
         <h1 class="mb-4">O nás</h1>
 
-        {{-- ===== Príbeh + vízia ===== --}}
         <div class="mt-12 grid gap-6 md:grid-cols-2">
-            <div class="rounded-2xl border border-white/10 bg-black/70 backdrop-blur p-6">
+            <div class="card p-6">
                 <h2 class="text-xl font-semibold mb-3">Ako sme vznikli</h2>
                 <p class="descriptions mb-3">
                     Revichillin založili v roku 2021 v Žiline dvaja kamaráti, ktorých frustrovalo,
@@ -26,7 +18,7 @@
                 </p>
             </div>
 
-            <div class="rounded-2xl border border-white/10 bg-black/70 backdrop-blur p-6">
+            <div class="card p-6">
                 <h2 class="text-xl font-semibold mb-3">Prečo to robíme</h2>
                 <p class="descriptions mb-3">
                     Chceli sme vytvoriť miesto, kde dospelý zákazník nájde to, čo hľadá, bez zbytočného
@@ -39,14 +31,12 @@
             </div>
         </div>
 
-        {{-- ===== Vízia ===== --}}
-        <div class="mt-6 rounded-2xl border border-white/10 bg-black/70 backdrop-blur p-6">
+        <div class="mt-6 card p-6">
             <h2 class="text-xl font-semibold mb-3">Naša vízia</h2>
             <p class="descriptions">
                 Byť najdôveryhodnejším online obchodom s nikotínovými produktmi na Slovensku –
                 s férovými cenami, rýchlym doručením a dôrazom na zodpovedný predaj.
             </p>
         </div>
-
     </section>
 @endsection

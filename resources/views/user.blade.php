@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="max-w-4xl mx-auto px-4 pt-32 pb-20">
-        <div class="rounded-2xl border border-white/10 bg-black/70 backdrop-blur p-8 min-h-[400px]">
+        <div class="card p-8 min-h-[400px]">
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl md:text-3xl font-semibold">Môj profil</h1>
 
@@ -63,7 +63,7 @@
 
             <div data-tab-panel="orders" class="mt-8 hidden">
                 @forelse ($orders as $order)
-                    <div class="mb-4 rounded-xl border border-white/10 bg-white/5 p-4">
+                    <div class="card mb-4">
                         <div class="flex items-center justify-between">
                             <h2 class="font-semibold">Objednávka č. {{ $order->order_number }}</h2>
                             <span class="text-sm text-white/60">{{ $order->created_at->format('d.m.Y H:i') }}</span>
@@ -93,7 +93,7 @@
                 @enderror
 
                 @forelse ($reviews as $review)
-                    <div class="mb-4 rounded-xl border border-white/10 bg-white/5 p-4" data-review>
+                    <div class="card mb-4" data-review>
                         <div class="flex items-center justify-between">
                             <a href="{{ route('productShow', $review->product->id) }}" class="font-semibold hover:text-orange-400 transition-colors">{{ $review->product->name }}</a>
                             <span class="text-sm text-white/60">{{ $review->created_at->format('d.m.Y H:i') }}</span>

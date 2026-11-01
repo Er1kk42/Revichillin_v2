@@ -11,16 +11,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Produkt e-shopu s nikotínovými produktmi.
- *
  * @property int $id
  * @property string $name
- * @property string $price decimal(8,2)
+ * @property string $price
  * @property string|null $description
- * @property string|null $image názov súboru v public/img/products
- * @property-read string|null $image_url celá URL obrázka (null, ak produkt obrázok nemá)
+ * @property string|null $image
+ * @property-read string|null $image_url
  * @property int $stock
- * @property int|null $nicotine_strength obsah nikotínu v mg (null = bez nikotínu)
+ * @property int|null $nicotine_strength
  * @property int|null $brand_id
  * @property int $product_type_id
  */
@@ -37,8 +35,6 @@ use Illuminate\Support\Facades\Storage;
 class Product extends Model
 {
     /**
-     * Pretypovanie stĺpcov na natívne PHP typy.
-     *
      * @return array<string, string>
      */
     protected function casts(): array
@@ -51,8 +47,6 @@ class Product extends Model
     }
 
     /**
-     * Značka produktu (voliteľná).
-     *
      * @return BelongsTo<Brand, $this>
      */
     public function brand(): BelongsTo
@@ -61,8 +55,6 @@ class Product extends Model
     }
 
     /**
-     * Typ produktu (povinný – "Nikotínové vrecká", "Tabak", ...).
-     *
      * @return BelongsTo<ProductType, $this>
      */
     public function productType(): BelongsTo
@@ -71,8 +63,6 @@ class Product extends Model
     }
 
     /**
-     * Príchute, v ktorých je produkt dostupný (M:N cez pivot "product_flavor").
-     *
      * @return BelongsToMany<Flavor, $this>
      */
     public function flavors(): BelongsToMany
@@ -81,8 +71,6 @@ class Product extends Model
     }
 
     /**
-     * Marketingové kategórie produktu (M:N cez pivot "product_category").
-     *
      * @return BelongsToMany<Category, $this>
      */
     public function categories(): BelongsToMany
@@ -107,10 +95,6 @@ class Product extends Model
     }
 
     /**
-     * URL obrázka produktu. Cestu berieme z disku "products" (config/filesystems.php),
-     * na ktorý obrázky ukladá aj admin (Filament) – adresa je tak na jednom mieste.
-     * Vo view: $product->image_url
-     *
      * @return Attribute<string|null, never>
      */
     protected function imageUrl(): Attribute

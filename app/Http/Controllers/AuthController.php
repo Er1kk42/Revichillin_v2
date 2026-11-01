@@ -11,30 +11,18 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function showRegister()
-    {
-        return view('register');
-    }
-
     public function register(RegisterRequest $request)
     {
         $user = User::create($request->validated());
-
         Auth::login($user);
         $request->session()->regenerate();
 
         return redirect()->route('welcome');
     }
 
-    public function showLogin()
-    {
-        return view('login');
-    }
-
     public function login(LoginRequest $request)
     {
         $validated = $request->validated();
-
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
 
@@ -50,7 +38,6 @@ class AuthController extends Controller
     public function showProfile(Request $request)
     {
         $orders = $request->user()->orders()->with('items.product')->latest()->get();
-
         $reviews = $request->user()->reviews()->with('product')->latest()->get();
 
         return view('user', ['orders' => $orders, 'reviews' => $reviews]);
@@ -60,8 +47,6 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
         $changes = ['name' => $validated['name']];
-
-        // Heslo meníme, len ak používateľ vyplnil nové (prázdne pole = heslo ostáva).
         if ($request->filled('password')) {
             $changes['password'] = $validated['password'];
         }

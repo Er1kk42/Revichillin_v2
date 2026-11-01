@@ -11,37 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-/**
- * Ukážkové produkty e-shopu.
- *
- * Spúšťa sa z DatabaseSeeder (po číselníkoch) – pri prvom štarte Dockeru
- * automaticky cez "php artisan migrate --seed" (viď docker/entrypoint.sh).
- * Ručne: php artisan db:seed --class=ProductSeeder
- *
- * Bezpečné spustiť opakovane: produkt sa hľadá podľa názvu, takže existujúci
- * sa nevytvorí druhýkrát a príchute/kategórie sa len doplnia (nič sa neodoberie).
- */
 class ProductSeeder extends Seeder
 {
     /**
-     * ZOZNAM PRODUKTOV – sem dopíš dáta.
-     *
-     * Kľúče jedného produktu:
-     *  - name              (povinné) názov produktu, zároveň podľa neho seeder spozná,
-     *                      či produkt už existuje
-     *  - price             (povinné) cena v €, napr. 4.99
-     *  - stock             (povinné) počet kusov na sklade
-     *  - type              (povinné) názov typu, napr. 'Nikotínové vrecká', 'Elektronické cigarety',
-     *                      'Tabak', 'Cigarety' (viď ProductTypeSeeder)
-     *  - brand             názov značky, napr. 'VELO', 'Killa', 'ELF BAR' (viď BrandSeeder), alebo null
-     *  - nicotine_strength obsah nikotínu v mg, alebo null (bez nikotínu)
-     *  - description       popis, alebo null
-     *  - image             názov súboru v public/img/products/, napr. 'KillaColdMint.png', alebo null
-     *                      (súbor musí byť commitnutý v gite, inak na čistej inštalácii chýba)
-     *  - flavors           zoznam názvov príchutí, napr. ['Mint'] – ak príchuť neexistuje, vytvorí sa
-     *  - categories        zoznam názvov kategórií, napr. ['Novinky'] – ak neexistuje, vytvorí sa
-     *
-     * Ak typ alebo značka s daným názvom neexistuje, vytvorí sa tiež.
      * @var array<int, array<string, mixed>>
      */
     private array $products = [
@@ -91,7 +63,7 @@ class ProductSeeder extends Seeder
             'type' => 'Nikotínové vrecká',
             'brand' => 'Killa',
             'nicotine_strength' => 12,
-            'description' => 'Nikotínové vrecúška Killa Apple vám prinášajú sviežu a sladkú chuť šťavnatých jabĺk, ktoré osviežia vaše chuťové poháriky. Každý sáčok obsahuje 12 mg nikotínu, čo znamená rýchly a silný účinok.',
+            'description' => 'Nikotínové vrecúška Killa Apple ti prinášajú sviežu a sladkú chuť šťavnatých jabĺk, ktoré osviežia tvoje chuťové poháriky. Každý sáčok obsahuje 12 mg nikotínu, čo znamená rýchly a silný účinok.',
             'image' => 'KillaApple.png',
             'flavors' => ['Apple'],
             'categories' => ['Novinky'],
@@ -182,7 +154,7 @@ class ProductSeeder extends Seeder
             'type' => 'Nikotínové vrecká',
             'brand' => 'Kurwa',
             'nicotine_strength' => 12,
-            'description' => 'Užite si nikotín bez fajčenia s nikotínovými vrecúškami Kurwa Collection. Výber unikátnych príchutí a rôznych úrovní intenzity vám umožní prispôsobiť zážitok podľa vašich preferencií. ',
+            'description' => 'Uži si nikotín bez fajčenia s nikotínovými vrecúškami Kurwa Collection. Výber unikátnych príchutí a rôznych úrovní intenzity ti umožní prispôsobiť zážitok podľa tvojich preferencií. ',
             'image' => 'KurwaMangoRassbery.png',
             'flavors' => ['Mango'], ['Raspberry'],
             'categories' => ['Novinky'],
@@ -234,7 +206,7 @@ class ProductSeeder extends Seeder
             'type' => 'Nikotínové vrecká',
             'brand' => 'Velo',
             'nicotine_strength' => 1,
-            'description' => 'Vyskúšajte nikotínové vrecúška s príchuťou citrus',
+            'description' => 'Vyskúšaj nikotínové vrecúška s príchuťou citrus',
             'image' => 'VeloCitrus.png',
             'flavors' => ['Citrus'],
             'categories' => ['Novinky'],
@@ -247,7 +219,7 @@ class ProductSeeder extends Seeder
             'type' => 'Nikotínové vrecká',
             'brand' => 'Velo',
             'nicotine_strength' => 10,
-            'description' => 'Objavte moderný spôsob, ako si vychutnať nikotín s VELO nikotínovými vrecúškami. Diskrétne, bez dymu a zápachu, ponúkajú čistý zážitok s pestrou škálou osviežujúcich príchutí. Ideálne pre tých, ktorí hľadajú pohodlie a štýl v každom momente.',
+            'description' => 'Objav moderný spôsob, ako si vychutnať nikotín s VELO nikotínovými vrecúškami. Diskrétne, bez dymu a zápachu, ponúkajú čistý zážitok s pestrou škálou osviežujúcich príchutí. Ideálne pre tých, ktorí hľadajú pohodlie a štýl v každom momente.',
             'image' => 'VeloCrispyPepermint.png',
             'flavors' => ['Pepermint'],
             'categories' => ['Novinky'],
@@ -260,7 +232,7 @@ class ProductSeeder extends Seeder
             'type' => 'Nikotínové vrecká',
             'brand' => 'Velo',
             'nicotine_strength' => 24,
-            'description' => 'VELO 6 - Peppermint Storm X-Intense Slim ponúka sviežu chuť mentolu a krehkej mäty priepornej, čo vytvára nezabudnuteľný zážitok pre vaše chuťové poháriky.',
+            'description' => 'VELO 6 - Peppermint Storm X-Intense Slim ponúka sviežu chuť mentolu a krehkej mäty priepornej, čo vytvára nezabudnuteľný zážitok pre tvoje chuťové poháriky.',
             'image' => 'VeloPepermintStorm.png',
             'flavors' => ['Pepermint'],
             'categories' => ['Novinky'],
@@ -281,21 +253,14 @@ class ProductSeeder extends Seeder
         ],
     ];
 
-
-
-
     public function run(): void
     {
         foreach ($this->products as $data) {
-            // Upozornenie, ak obrázok v public/img/products neexistuje
-            // (produkt sa aj tak vytvorí, len bez viditeľného obrázka).
             $image = $data['image'] ?? null;
             if ($image && ! file_exists(public_path('img/products/'.$image))) {
                 $this->command?->warn("Obrázok '{$image}' pre produkt '{$data['name']}' neexistuje v public/img/products.");
             }
 
-            // firstOrCreate: ak produkt s týmto názvom už je v DB, nechá ho tak,
-            // inak ho vytvorí so zadanými hodnotami.
             $product = Product::firstOrCreate(
                 ['name' => $data['name']],
                 [
@@ -309,8 +274,6 @@ class ProductSeeder extends Seeder
                 ],
             );
 
-            // M:N väzby – syncWithoutDetaching len pridá chýbajúce riadky do pivot tabuľky,
-            // existujúce väzby (napr. pridané adminom vo Filamente) neodoberie.
             $product->flavors()->syncWithoutDetaching(
                 collect($data['flavors'] ?? [])->map(fn (string $name) => $this->lookup(Flavor::class, $name)->id)
             );
@@ -321,9 +284,6 @@ class ProductSeeder extends Seeder
     }
 
     /**
-     * Nájde záznam číselníka (typ, značka, príchuť, kategória) podľa slugu z názvu,
-     * prípadne ho vytvorí. Napr. 'Nikotínové vrecká' -> slug 'nikotinove-vrecka'.
-     *
      * @param  class-string<Model>  $model
      */
     private function lookup(string $model, string $name): Model

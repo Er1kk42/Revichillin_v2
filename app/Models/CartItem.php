@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $user_id
  * @property int $product_id
  * @property int $quantity
- * @property-read float $total cena položky = cena produktu × množstvo
+ * @property-read float $total
  */
 #[Fillable(['user_id', 'product_id', 'quantity'])]
 class CartItem extends Model
@@ -44,10 +44,6 @@ class CartItem extends Model
     }
 
     /**
-     * Cena položky v košíku (cena produktu × množstvo).
-     * Používa sa ako $cartItem->total alebo $cartItems->sum('total'),
-     * takže výpočet je na jednom mieste (košík aj objednávka).
-     *
      * @return Attribute<float, never>
      */
     protected function total(): Attribute

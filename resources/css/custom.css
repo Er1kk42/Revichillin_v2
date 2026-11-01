@@ -1,15 +1,3 @@
-/* ============================================================================
-   VLASTNÉ CSS PRAVIDLÁ
-   ----------------------------------------------------------------------------
-   Čisté CSS (bez Tailwind @apply). Súbor sa načítava cez @import v app.css.
-
-   Vrstvy (od najslabšej): base -> components -> utilities (Tailwind triedy).
-     - base:       predvolený vzhľad HTML elementov na celom webe (h1, footer h4)
-     - components: naše vlastné triedy (.form-input, .btn-buy...)
-   Tailwind trieda priamo v HTML vie naše pravidlo vždy prebiť,
-   napr. <h1 class="text-5xl"> na úvodnej stránke.
-   ============================================================================ */
-
 @layer base {
     h1 {
         font-family: 'Montserrat', sans-serif;
@@ -18,7 +6,6 @@
         line-height: 1.2;
     }
 
-    /* Nadpisy stĺpcov v pätičke (selektor potomka: h4 vnútri footer) */
     footer h4 {
         margin-bottom: 0.75rem;
         color: #fff;
@@ -27,21 +14,16 @@
 }
 
 @layer components {
-
-    /* ---------------------------------------------------------------- TEXT */
-
     .descriptions {
         font-family: 'Inter', sans-serif;
         color: white;
     }
 
-    /* Cena produktu (veľkosť sa nastavuje Tailwind triedou text-xl / text-2xl) */
     .price {
         color: white;
         font-weight: 700;
     }
 
-    /* Zvýraznený odkaz v texte (napr. "Zaregistrujte sa", e-mail v kontakte) */
     .link-accent {
         color: #ff8904;
         text-decoration: none;
@@ -51,32 +33,33 @@
         text-decoration: underline;
     }
 
-    /* -------------------------------------------------------------- LAYOUT */
-
-    /* Hlavný obsah stránky – široký (produkty, košík) */
     .page-section {
         max-width: 64rem;
         margin: 0 auto;
-        padding: 8rem 2rem 5rem;            /* hore (pod fixným menu) / po stranách / dole */
+        padding: 8rem 2rem 5rem;
     }
 
-    /* Úzky variant pre formuláre (prihlásenie, registrácia) */
     .page-section-narrow {
         max-width: 28rem;
         margin: 0 auto;
         padding: 8rem 2rem 5rem;
     }
 
-    /* ----------------------------------------------------- OBRÁZOK PRODUKTU */
+    .card {
+        padding: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+    }
 
     .product-image {
         width: 100%;
-        aspect-ratio: 1 / 1;                /* štvorec bez ohľadu na rozmer obrázka */
-        object-fit: cover;                  /* obrázok vyplní štvorec, prečnievajúce časti sa orežú */
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
         border-radius: 0.75rem;
     }
 
-    /* Zástupný štvorec, keď produkt nemá obrázok */
     .product-image-empty {
         display: flex;
         align-items: center;
@@ -89,34 +72,27 @@
         font-size: 0.875rem;
     }
 
-    /* ------------------------------------------------------------ FORMULÁRE */
-
-    /* Textové polia a textarea (login, registrácia, profil, recenzie) */
     .form-input {
         width: 100%;
         padding: 0.5rem 1rem;
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 0.5rem;
-        background-color: #18181b;          /* plná tmavá farba (nie priehľadná) */
+        background-color: #18181b;
         color: #fff;
         transition: border-color 200ms, box-shadow 200ms;
     }
 
-    /* :focus = pole, do ktorého práve píšeš */
     .form-input:focus {
         outline: none;
         border-color: rgba(255, 137, 4, 0.6);
         box-shadow: 0 0 0 3px rgba(255, 137, 4, 0.2);
     }
 
-    /* Chybné pole – triedu pridáva resources/js/validation.js (klientská validácia).
-       Je až ZA :focus, aby červený okraj ostal aj vtedy, keď do poľa píšeš. */
     .form-input.is-invalid {
         border-color: #ff6467;
         box-shadow: 0 0 0 3px rgba(255, 100, 103, 0.2);
     }
 
-    /* ::placeholder = sivý pomocný text v prázdnom poli */
     .form-input::placeholder {
         color: rgba(255, 255, 255, 0.3);
     }
@@ -128,14 +104,12 @@
         font-size: 1rem;
     }
 
-    /* Chybová hláška pod poľom (z validácie na serveri) */
     .form-error {
         margin-top: 0.25rem;
         color: #ff6467;
         font-size: 0.875rem;
     }
 
-    /* Odosielacie tlačidlo formulára na celú šírku (prihlásiť, registrovať, uložiť) */
     .btn-form {
         display: block;
         width: 100%;
@@ -157,16 +131,12 @@
         color: #000;
     }
 
-    /* ------------------------------------------------------------ TLAČIDLÁ */
-
-    /* 1) NÁKUP – "Pridať do košíka", "Vytvoriť objednávku"
-          V pokoji tmavé, pri hoveri sa rozsvietia zelenou (#00C177). */
     .btn-buy {
         display: inline-block;
         cursor: pointer;
         padding: 0.5rem 1.25rem;
         border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 0.5rem;              /* jemne zaoblené rohy */
+        border-radius: 0.5rem;
         background-color: #18181b;
         color: #fff;
         font-size: 0.875rem;
@@ -179,21 +149,18 @@
         scale: 1.05;
         border-color: #00c177;
         background-color: #00c177;
-        color: #000;                        /* čierny text je na zelenej čitateľnejší ako biely */
+        color: #000;
     }
 
     .btn-buy:active {
         scale: 0.95;
     }
 
-    /* Loader na tlačidle nákupu je zelený, aby ladil s farbou hoveru */
     .btn-buy.is-loading::after {
         border-color: #00c177;
         border-top-color: transparent;
     }
 
-    /* 2) FILTER – záložky "Typ", "Príchuť", "Sila"... nad zoznamom produktov
-          Nenápadné, priehľadné, s oranžovým okrajom pri hoveri. */
     .btn-filter {
         cursor: pointer;
         padding: 0.4rem 1rem;
@@ -214,8 +181,6 @@
         scale: 1.1;
     }
 
-    /* 3) NEBEZPEČNÁ AKCIA – "Odstrániť" z košíka, "Odhlásiť sa", "Zmazať" recenziu
-          Červené a hranatejšie (malý border-radius), aby sa odlíšilo od ostatných. */
     .btn-danger {
         display: inline-block;
         cursor: pointer;
@@ -230,15 +195,11 @@
         transition: background-color 200ms, border-color 200ms, color 200ms;
     }
 
-    /* Pri hoveri sa "vyprázdni" – ostane len červený okraj a červený text */
     .btn-danger:hover {
         background-color: transparent;
         color: #ff6467;
     }
 
-    /* --------------------------------------------------------------- TOAST */
-
-    /* Krátka správa v pravom dolnom rohu (vytvára ju resources/js/toast.js) */
     .toast {
         position: fixed;
         right: 1.5rem;
@@ -265,7 +226,6 @@
         color: #ffa2a2;
     }
 
-    /* Pridá sa tesne pred odstránením – toast plynulo zmizne */
     .toast.is-hiding {
         opacity: 0;
     }

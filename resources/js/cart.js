@@ -1,11 +1,7 @@
 import { showToast } from './toast.js';
 
-export function setupCart() {
-
-    //JS zachytí klik → pošle požiadavku → server (Laravel) skontroluje token a login → controller → JSON → JS ho spracu
-    // Listener je na celom dokumente (delegovanie udalosti), nie na každom tlačidle zvlášť.
-    // Vďaka tomu funguje aj pre tlačidlá, ktoré pribudnú neskôr – napr. po filtrovaní
-    // produktov (filters.js vymení celý zoznam produktov za nový).
+export function setupCart()
+{
     document.addEventListener('click', async (event) => {
         const button = event.target.closest('[data-cart-add]');
         if (!button) return;
@@ -28,14 +24,11 @@ export function setupCart() {
     if (!list) return;
 
     list.addEventListener('click', async (event) => {
-        // URL (a pri odstránení aj metódu DELETE) má každé tlačidlo v data-url / data-method,
-        // vygenerované v Blade cez route() – v JS preto nie sú natvrdo napísané adresy.
         const button = event.target.closest('button[data-url]');
         const row = event.target.closest('[data-cart-item]');
         if (!button || !row) return;
 
         const response = await sendRequest(button.dataset.method ?? 'POST', button.dataset.url, button);
-
         const data = await response.json();
         if (!response.ok) {
             showToast(data.message, true);
@@ -59,8 +52,8 @@ export function setupCart() {
     });
 }
 
-async function sendRequest(method, url, button) {
-    // Počas požiadavky je tlačidlo neaktívne a točí sa na ňom koliesko (.is-loading)
+async function sendRequest(method, url, button)
+{
     const toggleLoading = (isLoading) => {
         button.disabled = isLoading;
         button.classList.toggle('is-loading', isLoading);
@@ -81,7 +74,8 @@ async function sendRequest(method, url, button) {
     }
 }
 
-function formatPrice(price) {
+function formatPrice(price)
+{
     const formatted = Number(price).toLocaleString('sk-SK', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     return `${formatted} €`;
 }

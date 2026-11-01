@@ -13,8 +13,6 @@ class ReviewController extends Controller
     {
         $validated = $request->validated();
 
-        // request/auth -> getne prihlaseneho usera() z neho vezmeme orders() a z nich itemy, kore maju rovnake id ak $product
-        // vezmi itemy objednavok prihlaseneho, ktore maju id ako z id z requestu a povedz, ci existuje aspon 1
         $hasPurchased = $request->user()
             ->orders()
             ->whereRelation('items', 'product_id', $product->id)
@@ -22,7 +20,7 @@ class ReviewController extends Controller
 
         if (! $hasPurchased) {
             return back()
-                ->withErrors(['text' => 'Tento produkt ste nezakúpili.'])
+                ->withErrors(['text' => 'Recenziu môžeš pridať len k produktu, ktorý máš zakúpený.'])
                 ->withInput();
         }
 
@@ -37,9 +35,7 @@ class ReviewController extends Controller
     public function update(ReviewRequest $request, Review $review)
     {
         abort_unless($review->user()->is($request->user()), 403);
-
         $validated = $request->validated();
-
         $review->update(['text' => $validated['text']]);
 
         return redirect()->route('user')->withFragment('posts')->with('status', 'Recenzia bola upravená.');
@@ -48,7 +44,6 @@ class ReviewController extends Controller
     public function destroy(Request $request, Review $review)
     {
         abort_unless($review->user()->is($request->user()), 403);
-
         $review->delete();
 
         return redirect()->route('user')->withFragment('posts')->with('status', 'Recenzia bola zmazaná.');

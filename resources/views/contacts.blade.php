@@ -1,14 +1,5 @@
 @extends('layouts.app')
 
-{{--
-    KONTAKTNÁ STRÁNKA
-    Statická stránka (route v routes/web.php vracia len view('contacts')).
-    Všetky údaje sú FIKTÍVNE – slúžia len na ukážku v rámci školského projektu.
-
-    Údaje sú v PHP poliach na začiatku šablóny a HTML ich len vypisuje cez @foreach.
-    Keď treba niečo zmeniť (napr. otváracie hodiny), stačí upraviť pole,
-    HTML sa nemení.
---}}
 @php
     $company = [
         'Obchodné meno' => 'Revichillin s.r.o.',
@@ -31,16 +22,13 @@
     <section class="page-section">
         <h1 class="mb-4">Kontakt</h1>
         <p class="descriptions mb-10 max-w-2xl">
-            Máte otázku k objednávke, produktu alebo reklamácii? Ozvite sa nám e-mailom alebo telefonicky
+            Máš otázku k objednávke, produktu alebo reklamácii? Ozvi sa nám e-mailom alebo telefonicky
             počas pracovných hodín – odpovedáme spravidla do 24 hodín.
         </p>
 
-        {{-- ===== Horný riadok: rýchly kontakt + údaje o firme ===== --}}
         <div class="grid gap-6 md:grid-cols-2">
-
-            {{-- Rýchly kontakt a otváracie hodiny --}}
-            <div class="rounded-2xl border border-white/10 bg-black/70 backdrop-blur p-6">
-                <h2 class="text-xl font-semibold mb-4">Napíšte alebo zavolajte</h2>
+            <div class="card p-6">
+                <h2 class="text-xl font-semibold mb-4">Napíš alebo zavolaj</h2>
 
                 <dl class="space-y-3 text-sm">
                     <div>
@@ -68,11 +56,9 @@
                 </table>
             </div>
 
-            {{-- Fakturačné údaje spoločnosti --}}
-            <div class="rounded-2xl border border-white/10 bg-black/70 backdrop-blur p-6">
+            <div class="card p-6">
                 <h2 class="text-xl font-semibold mb-4">Fakturačné údaje</h2>
 
-                {{-- dl/dt/dd = HTML zoznam dvojíc "názov – hodnota", presne na to určený --}}
                 <dl class="space-y-3 text-sm">
                     @foreach ($company as $label => $value)
                         <div>

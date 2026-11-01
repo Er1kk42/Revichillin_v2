@@ -32,7 +32,6 @@
                 @error('birth_date')
                 <p class="form-error">{{ $message }}</p>
                 @enderror
-                {{--@errors si pamataju vsetky errory z predosleho postu, ak sa medzi errormi najde 'birth_date' zavola sa message a vzpise sa --}}
             </div>
 
             <div>
@@ -57,7 +56,7 @@
         </form>
 
         <p class="text-white/60 text-sm mt-6">
-            Máte už účet? <a href="{{ route('login') }}" class="link-accent">Prihláste sa</a>
+            Už máš účet? <a href="{{ route('login') }}" class="link-accent">Prihlás sa</a>
         </p>
     </section>
 @endsection

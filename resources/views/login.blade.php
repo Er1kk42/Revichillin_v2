@@ -32,7 +32,7 @@
         </form>
 
         <p class="text-white/60 text-sm mt-6">
-            Nemáte účet? <a href="{{ route('register') }}" class="link-accent">Zaregistrujte sa</a>
+            Nemáš účet? <a href="{{ route('register') }}" class="link-accent">Zaregistruj sa</a>
         </p>
     </section>
 @endsection
