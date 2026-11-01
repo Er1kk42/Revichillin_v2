@@ -1,3 +1,4 @@
+//ciatocne upravene pomocou AI
 export function setupFilters()
 {
     const filters = document.getElementById('filters');

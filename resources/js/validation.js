@@ -1,3 +1,4 @@
+//ciatocne upravene pomocou AI
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function getLabel(input)

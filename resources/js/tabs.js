@@ -1,3 +1,4 @@
+//ciatocne upravene pomocou AI
 export function setupTabs()
 {
     const tabs = Array.from(document.querySelectorAll('[data-tab]'));

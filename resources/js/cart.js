@@ -1,3 +1,4 @@
+//ciatocne upravene pomocou AI
 import { showToast } from './toast.js';
 
 export function setupCart()

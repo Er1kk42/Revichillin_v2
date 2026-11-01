@@ -1,3 +1,4 @@
+//ciatocne upravene pomocou AI
 @extends('layouts.app')
 
 @section('content')

@@ -1,3 +1,4 @@
+//ciatocne upravene pomocou AI
 export function setupPageLoader()
 {
     const loader = document.getElementById('page-loader');

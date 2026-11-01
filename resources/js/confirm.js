@@ -1,3 +1,4 @@
+//ciatocne upravene pomocou AI
 export function setupConfirm()
 {
     document.querySelectorAll('form[data-confirm]').forEach((form) => {

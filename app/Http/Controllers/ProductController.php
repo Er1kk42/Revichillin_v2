@@ -7,7 +7,7 @@ use App\Models\Flavor;
 use App\Models\Product;
 use App\Models\ProductType;
 use Illuminate\Http\Request;
-
+//ciatocne upravene pomocou AI
 class ProductController extends Controller
 {
     public function index(Request $request)

@@ -1,3 +1,4 @@
+//ciatocne upravene pomocou AI
 export function showToast(message, isError = false)
 {
     const toast = document.createElement('div');

@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <section class="page-section">
         <h1 class="mb-4">O nás</h1>

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+//ciatocne upravene pomocou AI
 @section('content')
     <section class="page-section-narrow">
         <h1 class="mb-8">Prihlásenie</h1>

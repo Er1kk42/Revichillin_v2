@@ -1,3 +1,4 @@
+//vygenerovane ai
 export function setupPriorityNav()
 {
     const wrapper = document.getElementById('nav-wrapper');

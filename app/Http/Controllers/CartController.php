@@ -1,5 +1,5 @@
 <?php
-
+//ciatocne upravene pomocou AI
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;

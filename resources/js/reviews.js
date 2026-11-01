@@ -1,3 +1,4 @@
+//ciatocne upravene pomocou AI
 export function setupReviewEdit()
 {
     document.querySelectorAll('[data-review]').forEach((card) => {
