@@ -27,7 +27,7 @@ export function setupCart()
     list.addEventListener('click', async (event) => {
         const button = event.target.closest('button[data-url]');
         const row = event.target.closest('[data-cart-item]');
-        if (!button || !row) return;
+        if (!button) return;
 
         const response = await sendRequest(button.dataset.method ?? 'POST', button.dataset.url, button);
         const data = await response.json();
@@ -35,6 +35,8 @@ export function setupCart()
             showToast(data.message, true);
             return;
         }
+
+        if (data.message) showToast(data.message);
 
         if (data.quantity > 0) {
             row.querySelector('[data-cart-quantity]').textContent = data.quantity;
@@ -77,6 +79,5 @@ async function sendRequest(method, url, button)
 
 function formatPrice(price)
 {
-    const formatted = Number(price).toLocaleString('sk-SK', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    return `${formatted} €`;
+    return `${Number(price).toFixed(2)} €`
 }

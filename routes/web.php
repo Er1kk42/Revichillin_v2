@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('welcome');
 Route::view('/about', 'about')->name('about');
 Route::view('/contacts', 'contacts')->name('contacts');
-Route::view('/gallery', 'gallery')->name('gallery');
+Route::view('/terms', 'terms')->name('terms');
+Route::view('/complaints', 'complaints')->name('complaints');
+Route::view('/privacy', 'privacy')->name('privacy');
+Route::view('/shipping', 'shipping')->name('shipping');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('productShow');

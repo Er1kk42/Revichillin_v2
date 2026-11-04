@@ -45,6 +45,21 @@
                         Kontakt
                     </a>
                 </li>
+                <li data-nav-item>
+                    <a href="{{ route('terms') }}" class="menu-item">
+                        Obchodné podmienky
+                    </a>
+                </li>
+                <li data-nav-item>
+                    <a href="{{ route('complaints') }}" class="menu-item">
+                        Reklamácie
+                    </a>
+                </li>
+                <li data-nav-item>
+                    <a href="{{ route('shipping') }}" class="menu-item">
+                        Doprava
+                    </a>
+                </li>
             </ul>
 
             <div class="relative shrink-0">
@@ -110,11 +125,25 @@
 
         <div>
             <h4>Info</h4>
-            <p class="text-sm">Predaj len osobám nad 18 rokov.</p>
+            <ul class="space-y-2 text-sm">
+                <li>E-mail: <a href="mailto:info@revichillin.sk" class="hover:text-orange-400 transition-colors">info@revichillin.sk</a></li>
+                <li>Telefón: <a href="tel:+421900000000" class="hover:text-orange-400 transition-colors">+421 900 000 000</a></li>
+                <li>Po – Pi: 9:00 – 17:00</li>
+                <li>Predaj len osobám nad 18 rokov.</li>
+                <li class="text-white/50">Nikotín je vysoko návyková látka.</li>
+            </ul>
         </div>
     </div>
 
-    <div class="max-w-6xl mx-auto border-t border-white/10 mt-8 pt-6 text-center text-xs">
+    {{-- Odkazy (obchodné podmienky a pod.) - vedľa seba, medzera 20 px --}}
+    <div class="max-w-6xl mx-auto border-t border-white/10 mt-8 pt-6 flex flex-wrap justify-center gap-5 text-sm">
+        <a href="{{ route('terms') }}" class="hover:text-orange-400 transition-colors">Obchodné podmienky</a>
+        <a href="{{ route('complaints') }}" class="hover:text-orange-400 transition-colors">Reklamačný poriadok</a>
+        <a href="{{ route('privacy') }}" class="hover:text-orange-400 transition-colors">Ochrana osobných údajov</a>
+        <a href="{{ route('shipping') }}" class="hover:text-orange-400 transition-colors">Doprava a platba</a>
+    </div>
+
+    <div class="max-w-6xl mx-auto mt-6 text-center text-xs">
         &copy; {{ date('Y') }} Revichillin. Všetky práva vyhradené.
     </div>
 </footer>

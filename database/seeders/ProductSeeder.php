@@ -26,7 +26,7 @@ class ProductSeeder extends Seeder
             'nicotine_strength' => 20,
             'description' => 'Zaži jemne sladkú a krémovú chuť zrelého banánu, ktorú dopĺňa osviežujúci ľadový nádych pre vyvážený a chladivý zážitok.',
             'image' => 'BlubarBanana.png',
-            'flavors' => ['Banana'], ['Ice'],
+            'flavors' => ['Banana', 'Ice'],
             'categories' => ['Novinky'],
 
         ],
@@ -52,7 +52,7 @@ class ProductSeeder extends Seeder
             'nicotine_strength' => 20,
             'description' => 'Jednorazová elektronická cigareta blu bar je moderné a štýlové zariadenie, ktoré prináša zážitok z vapovania lepší ako kedykoľvek predtým v skvelej príchuti hrozna so sviežim nádychom.',
             'image' => 'BlubarGrape.jpg',
-            'flavors' => ['Grape'], ['Ice'],
+            'flavors' => ['Grape', 'Ice'],
             'categories' => ['Novinky'],
 
         ],
@@ -143,7 +143,7 @@ class ProductSeeder extends Seeder
             'nicotine_strength' => 12,
             'description' => 'Kiwi Apple - intenzívna, šťavnatá a sladko-kyslá ovocná bomba. Chuť je veľmi sýta, verná a dopĺňa ju len jemný náznak chladivého efektu pre maximálnu sviežosť, bez prehnaného pálenia mentolu.',
             'image' => 'KurwaKiwiApple.png',
-            'flavors' => ['Kiwi'], ['Apple'],
+            'flavors' => ['Kiwi', 'Apple'],
             'categories' => ['Novinky'],
 
         ],
@@ -156,7 +156,7 @@ class ProductSeeder extends Seeder
             'nicotine_strength' => 12,
             'description' => 'Uži si nikotín bez fajčenia s nikotínovými vrecúškami Kurwa Collection. Výber unikátnych príchutí a rôznych úrovní intenzity ti umožní prispôsobiť zážitok podľa tvojich preferencií. ',
             'image' => 'KurwaMangoRassbery.png',
-            'flavors' => ['Mango'], ['Raspberry'],
+            'flavors' => ['Mango', 'Raspberry'],
             'categories' => ['Novinky'],
 
         ],
@@ -195,7 +195,7 @@ class ProductSeeder extends Seeder
             'nicotine_strength' => 10,
             'description' => 'Pablo nikotínové vrecúška ponúkajú vyvážený zážitok pre tých, ktorí preferujú tradičný štýl nikotínu. Diskrétne a bez dymu, ideálne na každodenné použitie.',
             'image' => 'PabloPeachIce.png',
-            'flavors' => ['Ice'], ['Peach'],
+            'flavors' => ['Ice', 'Peach'],
             'categories' => ['Novinky'],
 
         ],

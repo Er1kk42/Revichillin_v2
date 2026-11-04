@@ -56,7 +56,7 @@ class CartController extends Controller
         if ($cartItem->quantity > 1) {
             $cartItem->decrement('quantity');
         } else {
-            $cartItem->delete();
+            return $this->destroy($request, $cartItem);
         }
 
         return response()->json($this->cartSummary($request->user(), $item));
@@ -69,7 +69,10 @@ class CartController extends Controller
         $product = $item->product;
         $item->delete();
 
-        return response()->json($this->cartSummary($request->user(), $product));
+        return response()->json([
+            'message' => 'Produkt bol odstránený z košíka',
+            ...$this->cartSummary($request->user(), $product),
+        ]);
     }
 
     private function cartSummary(User $user, Product $product): array

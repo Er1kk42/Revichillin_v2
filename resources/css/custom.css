@@ -84,8 +84,7 @@
 
     .form-input:focus {
         outline: none;
-        border-color: rgba(255, 137, 4, 0.6);
-        box-shadow: 0 0 0 3px rgba(255, 137, 4, 0.2);
+        border-color: #00c177;
     }
 
     .form-input.is-invalid {

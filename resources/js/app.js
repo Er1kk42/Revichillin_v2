@@ -7,6 +7,7 @@ import { setupTabs } from './tabs.js';
 import { setupReviewEdit } from './reviews.js';
 import { setupConfirm } from './confirm.js';
 import { setupFilters } from './filters.js';
+import { setupSlider } from './slider.js';
 
 document.addEventListener('DOMContentLoaded', setupPriorityNav);
 document.addEventListener('DOMContentLoaded', setupCart);
@@ -17,3 +18,4 @@ document.addEventListener('DOMContentLoaded', setupTabs);
 document.addEventListener('DOMContentLoaded', setupReviewEdit);
 document.addEventListener('DOMContentLoaded', setupConfirm);
 document.addEventListener('DOMContentLoaded', setupFilters);
+document.addEventListener('DOMContentLoaded', setupSlider);
