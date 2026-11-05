@@ -56,7 +56,7 @@
         </form>
 
         <p class="text-white/60 text-sm mt-6">
-            Už máš účet? <a href="{{ route('login') }}" class="link-accent">Prihlás sa</a>
+            Už máš účet? <a href="{{ route('login') }}" class="link-accent font-bold">Prihlás sa</a>
         </p>
     </section>
 @endsection

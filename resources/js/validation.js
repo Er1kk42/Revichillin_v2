@@ -1,20 +1,47 @@
 //ciatocne upravene pomocou AI
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function getLabel(input)
+export function setupValidation()
 {
-    const label = input.id ? document.querySelector(`label[for="${input.id}"]`) : null;
-    return label ? label.textContent.trim() : null;
+    document.querySelectorAll('form[data-validate]').forEach(setupForm);
 }
 
-function dateYearsAgo(years)
-{
-    const date = new Date();
-    date.setFullYear(date.getFullYear() - years);
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${date.getFullYear()}-${month}-${day}`;
+function setupForm(form)
+{
+    form.noValidate = true;
+
+    const fields = Array.from(form.querySelectorAll('input:not([type="hidden"]), textarea'));
+
+    form.addEventListener('submit', (event) => {
+        let firstInvalid = null;
+
+        fields.forEach((input) => {
+            const message = validateField(input, form);
+            showError(input, message);
+            if (message && !firstInvalid) {
+                firstInvalid = input;
+            }
+        });
+
+        if (firstInvalid) {
+            event.preventDefault();
+            firstInvalid.focus();
+        }
+    })
+
+    fields.forEach((input) => {
+        input.addEventListener('blur', () => {
+            if (input.value.trim() !== '') {
+                showError(input, validateField(input, form));
+            }
+        });
+
+        input.addEventListener('input', () => {
+            if (input.classList.contains('is-invalid')) {
+                showError(input, validateField(input, form));
+            }
+        });
+    });
 }
 
 function validateField(input, form)
@@ -60,6 +87,22 @@ function validateField(input, form)
     return null;
 }
 
+function getLabel(input)
+{
+    const label = input.id ? document.querySelector(`label[for="${input.id}"]`) : null;
+    return label ? label.textContent.trim() : null;
+}
+
+function dateYearsAgo(years)
+{
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - years);
+
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${date.getFullYear()}-${month}-${day}`;
+}
+
 function showError(input, message)
 {
     input.parentElement.querySelectorAll(':scope > .form-error').forEach((element) => element.remove());
@@ -76,45 +119,4 @@ function showError(input, message)
     }
 }
 
-function setupForm(form)
-{
-    form.noValidate = true;
 
-    const fields = Array.from(form.querySelectorAll('input:not([type="hidden"]), textarea'));
-
-    form.addEventListener('submit', (event) => {
-        let firstInvalid = null;
-
-        fields.forEach((input) => {
-            const message = validateField(input, form);
-            showError(input, message);
-            if (message && !firstInvalid) {
-                firstInvalid = input;
-            }
-        });
-
-        if (firstInvalid) {
-            event.preventDefault();
-            firstInvalid.focus();
-        }
-    });
-
-    fields.forEach((input) => {
-        input.addEventListener('blur', () => {
-            if (input.value.trim() !== '') {
-                showError(input, validateField(input, form));
-            }
-        });
-
-        input.addEventListener('input', () => {
-            if (input.classList.contains('is-invalid')) {
-                showError(input, validateField(input, form));
-            }
-        });
-    });
-}
-
-export function setupValidation()
-{
-    document.querySelectorAll('form[data-validate]').forEach(setupForm);
-}

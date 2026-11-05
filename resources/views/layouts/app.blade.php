@@ -103,7 +103,7 @@
 <div id="flash" hidden data-success="{{ session('status') }}"></div>
 
 <div id="page-loader" class="hidden flex fixed inset-0 z-[100] items-center justify-center bg-black/38 backdrop-blur-xs">
-    <div class="size-[60px] rounded-full border-6 border-orange-400 border-t-transparent animate-spin"></div>
+    <div class="size-[60px] rounded-full border-6 border-[#00c177] border-t-transparent animate-spin"></div>
 </div>
 
 <footer class="bg-neutral-900 text-white/70 px-8 py-10">

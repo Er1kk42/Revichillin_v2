@@ -7,7 +7,7 @@
 
     .menu-item:hover {
         scale: 1.28;
-        color: #ff8904;
+        color: #00c177;
     }
 
     .buttonsAll {
@@ -47,7 +47,7 @@
         margin: auto;
         width: 1rem;
         height: 1rem;
-        border: 2px solid #ff8904;
+        border: 2px solid #00c177;
         border-top-color: transparent;
         border-radius: 9999px;
         animation: spinner 1s linear infinite;
@@ -56,12 +56,13 @@
     .product-card {
         display: flex;
         flex-direction: column;
-        transition: border-color 300ms, scale 300ms ease-out;
+        transition: border-color 300ms, box-shadow 300ms, scale 300ms ease-out;
     }
 
     .product-card:hover {
         scale: 1.03;
-        border-color: rgba(255, 137, 4, 0.6);
+        border-color: #00c177;
+        box-shadow: 0 0 0 1px #00c177;
     }
 
     .filter-panel {
